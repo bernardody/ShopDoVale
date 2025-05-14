@@ -1,0 +1,386 @@
+/* Responsive Styles */
+
+/* Large Desktops (1200px and above) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+
+  .auth-illustration {
+    display: block;
+  }
+}
+
+/* Desktops (992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    max-width: 960px;
+  }
+
+  .auth-illustration {
+    display: block;
+  }
+}
+
+/* Tablets (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    max-width: 720px;
+  }
+
+  .header-wrapper {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .search-bar {
+    max-width: 300px;
+  }
+
+  .auth-illustration {
+    display: block;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .products-layout {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+
+  .product-detail {
+    flex-direction: column;
+  }
+
+  .product-detail-image {
+    min-width: 100%;
+  }
+}
+
+/* Mobile Landscape (576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .container {
+    max-width: 540px;
+  }
+
+  .main-nav {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: block;
+  }
+
+  .header-wrapper {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .search-bar {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .products-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-items {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .cart-header {
+    display: none;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    position: relative;
+  }
+
+  .cart-product {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .cart-remove {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+
+  .cart-quantity, .cart-price, .cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 80px;
+  }
+
+  .cart-quantity::before {
+    content: 'Quantidade:';
+    font-weight: 500;
+  }
+
+  .cart-price::before {
+    content: 'Preço:';
+    font-weight: 500;
+  }
+
+  .cart-subtotal::before {
+    content: 'Subtotal:';
+    font-weight: 500;
+  }
+
+  .cart-actions {
+    flex-direction: column;
+  }
+
+  .cart-coupon {
+    width: 100%;
+  }
+
+  .product-detail {
+    flex-direction: column;
+  }
+
+  .product-detail-image {
+    min-width: 100%;
+  }
+
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .auth-illustration {
+    display: none;
+  }
+}
+
+/* Mobile Portrait (up to 575px) */
+@media (max-width: 575px) {
+  .container {
+    width: 100%;
+    padding: 0 var(--spacing-md);
+  }
+
+  .main-nav {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: block;
+  }
+
+  .header-wrapper {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .search-bar {
+    display: none;
+  }
+
+  .hero {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .hero-content {
+    padding: var(--spacing-md);
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero p {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-slider {
+    overflow-x: auto;
+  }
+
+  .testimonial {
+    min-width: 260px;
+    width: 85%;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-form button {
+    width: 100%;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .products-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-items {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .cart-header {
+    display: none;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    position: relative;
+  }
+
+  .cart-product {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .cart-remove {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+
+  .cart-quantity, .cart-price, .cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cart-quantity::before {
+    content: 'Quantidade:';
+    font-weight: 500;
+  }
+
+  .cart-price::before {
+    content: 'Preço:';
+    font-weight: 500;
+  }
+
+  .cart-subtotal::before {
+    content: 'Subtotal:';
+    font-weight: 500;
+  }
+
+  .cart-actions {
+    flex-direction: column;
+  }
+
+  .cart-coupon {
+    width: 100%;
+  }
+
+  .product-detail {
+    flex-direction: column;
+  }
+
+  .product-detail-image {
+    min-width: 100%;
+  }
+
+  .product-info-header {
+    flex-wrap: wrap;
+  }
+
+  .product-info-tab {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .auth-illustration {
+    display: none;
+  }
+
+  .auth-form {
+    padding: var(--spacing-lg);
+  }
+
+  .form-checkbox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-checkbox label {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .page-header {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .page-header h1 {
+    font-size: 1.8rem;
+  }
+}
