@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop do Vale | Produtos Frescos e Naturais</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Section -->
+  <header id="main-header">
+    <div class="container">
+      <div class="header-wrapper">
+        <div class="logo">
+          <a href="index.html">
+            <i class="fas fa-leaf"></i>
+            <span>Shop do Vale</span>
+          </a>
+        </div>
+
+        <div class="search-bar">
+          <input type="text" placeholder="Buscar produtos...">
+          <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html" class="active">Início</a></li>
+            <li><a href="pages/products.html">Produtos</a></li>
+            <li><a href="pages/about.html">Sobre nós</a></li>
+            <li><a href="pages/contact.html">Contato</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <a href="pages/cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+          <div class="user-menu" id="user-menu">
+            <button class="user-button" id="user-button">
+              <i class="fas fa-user"></i>
+            </button>
+            <div class="user-dropdown" id="user-dropdown">
+              <div class="user-info" id="user-info">
+                <a href="pages/login.html" class="btn btn-outline">Entrar</a>
+                <a href="pages/register.html" class="btn btn-primary">Cadastrar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="mobile-toggle" id="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobile-nav">
+    <ul>
+      <li><a href="index.html" class="active">Início</a></li>
+      <li><a href="pages/products.html">Produtos</a></li>
+      <li><a href="pages/about.html">Sobre nós</a></li>
+      <li><a href="pages/contact.html">Contato</a></li>
+      <li><a href="pages/login.html">Entrar</a></li>
+      <li><a href="pages/register.html">Cadastrar</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Alimentos frescos direto do produtor</h1>
+        <p>Conectamos produtores locais a consumidores que valorizam produtos naturais e sustentáveis.</p>
+        <div class="hero-buttons">
+          <a href="pages/products.html" class="btn btn-primary btn-lg">Ver produtos</a>
+          <a href="pages/register.html" class="btn btn-outline btn-lg">Tornar-se produtor</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="categories">
+    <div class="container">
+      <div class="section-header">
+        <h2>Categorias</h2>
+        <p>Explore nossos produtos por categoria</p>
+      </div>
+      <div class="categories-grid" id="categories-container">
+        <!-- Categories will be inserted here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="featured-products">
+    <div class="container">
+      <div class="section-header">
+        <h2>Produtos em destaque</h2>
+        <p>Diretamente dos produtores para a sua mesa</p>
+      </div>
+      <div class="products-grid" id="featured-products-container">
+        <!-- Featured products will be inserted here by JavaScript -->
+      </div>
+      <div class="view-all">
+        <a href="pages/products.html" class="btn btn-outline">Ver todos os produtos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2>Como funciona</h2>
+        <p>Conheça o processo do campo à sua casa</p>
+      </div>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <h3>Cultivo Responsável</h3>
+          <p>Nossos produtores cultivam com práticas sustentáveis e responsáveis.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-store"></i>
+          </div>
+          <h3>Venda Direta</h3>
+          <p>Eliminamos intermediários, garantindo preços justos para todos.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-truck"></i>
+          </div>
+          <h3>Entrega Fresca</h3>
+          <p>Produtos frescos entregues rapidamente para manter a qualidade.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h3>Consumo Consciente</h3>
+          <p>Apoie produtores locais e promova sustentabilidade alimentar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2>Depoimentos</h2>
+        <p>O que nossos clientes e produtores dizem</p>
+      </div>
+      <div class="testimonials-slider" id="testimonials-container">
+        <!-- Testimonials will be inserted here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2>Fique por dentro</h2>
+        <p>Receba novidades sobre produtos frescos e ofertas exclusivas</p>
+        <form id="newsletter-form" class="newsletter-form">
+          <input type="email" placeholder="Seu e-mail" required>
+          <button type="submit" class="btn btn-primary">Inscrever-se</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer id="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>Shop do Vale</span>
+          </div>
+          <p>Conectando produtores rurais e consumidores através de um comércio justo e sustentável.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h3>Links Rápidos</h3>
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pages/products.html">Produtos</a></li>
+            <li><a href="pages/about.html">Sobre nós</a></li>
+            <li><a href="pages/contact.html">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h3>Categorias</h3>
+          <ul id="footer-categories">
+            <!-- Footer categories will be inserted here by JavaScript -->
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h3>Contato</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - Vale Verde</p>
+          <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+          <p><i class="fas fa-envelope"></i> contato@shopdovale.com.br</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Shop do Vale. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
