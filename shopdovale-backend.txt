@@ -46,9 +46,9 @@ shopdovale-backend/
 ├── uploads/                     # Arquivos enviados
 │   └── products/               # Imagens de produtos
 │
-├── .env                         # Variáveis de ambiente
-├── .env.example                 # Exemplo de variáveis
-├── .gitignore                   # Arquivos ignorados
-├── package.json                 # Dependências e scripts
-├── server.js                    # Entrada da aplicação
-└── README.md                    # Documentação básica
+├── .env                         # Variáveis de ambiente ----feito 
+├── .env.example                 # Exemplo de variáveis ----feito
+├── .gitignore                   # Arquivos ignorados ----feito
+├── package.json                 # Dependências e scripts ----feito
+├── server.js                    # Entrada da aplicação ----feito
+└── README.md                    # Documentação básica ----feito
