@@ -1,13 +1,13 @@
 shopdovale-backend/
 ├── src/
 │   ├── config/
-│   │   ├── database.js           # Configuração do PostgreSQL
-│   │   └── auth.js              # Configurações JWT
+│   │   ├── database.js           # Configuração do PostgreSQL ----feito
+│   │   └── auth.js              # Configurações JWT ----feito
 │   │
 │   ├── controllers/
-│   │   ├── authController.js     # Login, registro
-│   │   ├── userController.js     # CRUD usuários
-│   │   ├── produtoController.js  # CRUD produtos
+│   │   ├── authController.js     # Login, registro ---- feito
+│   │   ├── userController.js     # CRUD usuários ---- feito
+│   │   ├── produtoController.js  # CRUD produtos ---- feito
 │   │   ├── carrinhoController.js # CRUD carrinho
 │   │   ├── pedidoController.js   # CRUD pedidos
 │   │   └── dashboardController.js# Dashboard básico
