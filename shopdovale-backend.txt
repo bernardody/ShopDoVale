@@ -1,0 +1,54 @@
+shopdovale-backend/
+├── src/
+│   ├── config/
+│   │   ├── database.js           # Configuração do PostgreSQL
+│   │   └── auth.js              # Configurações JWT
+│   │
+│   ├── controllers/
+│   │   ├── authController.js     # Login, registro
+│   │   ├── userController.js     # CRUD usuários
+│   │   ├── produtoController.js  # CRUD produtos
+│   │   ├── carrinhoController.js # CRUD carrinho
+│   │   ├── pedidoController.js   # CRUD pedidos
+│   │   └── dashboardController.js# Dashboard básico
+│   │
+│   ├── middlewares/
+│   │   ├── auth.js              # Verificação JWT
+│   │   ├── validation.js        # Validação básica
+│   │   └── errorHandler.js      # Tratamento de erros
+│   │
+│   ├── models/
+│   │   ├── User.js              # Model usuários
+│   │   ├── Produto.js           # Model produtos
+│   │   ├── Carrinho.js          # Model carrinho
+│   │   ├── Pedido.js            # Model pedidos
+│   │   └── Endereco.js          # Model endereços
+│   │
+│   ├── routes/
+│   │   ├── auth.js              # Rotas autenticação
+│   │   ├── users.js             # Rotas usuários
+│   │   ├── produtos.js          # Rotas produtos
+│   │   ├── carrinho.js          # Rotas carrinho
+│   │   ├── pedidos.js           # Rotas pedidos
+│   │   ├── dashboard.js         # Rotas dashboard
+│   │   └── index.js             # Centralizador de rotas
+│   │
+│   ├── services/
+│   │   ├── emailService.js      # Envio de emails básico
+│   │   └── weeklyService.js     # Renovação semanal
+│   │
+│   ├── utils/
+│   │   ├── helpers.js           # Funções auxiliares
+│   │   └── validators.js        # Validadores básicos
+│   │
+│   └── app.js                   # Configuração principal
+│
+├── uploads/                     # Arquivos enviados
+│   └── products/               # Imagens de produtos
+│
+├── .env                         # Variáveis de ambiente
+├── .env.example                 # Exemplo de variáveis
+├── .gitignore                   # Arquivos ignorados
+├── package.json                 # Dependências e scripts
+├── server.js                    # Entrada da aplicação
+└── README.md                    # Documentação básica

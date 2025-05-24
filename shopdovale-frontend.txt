@@ -1,0 +1,88 @@
+shopdovale-frontend/
+├── assets/
+│   ├── css/
+│   │   ├── reset.css              # Reset CSS
+│   │   ├── variables.css          # Variáveis CSS
+│   │   ├── main.css              # Estilos principais
+│   │   ├── components.css         # Componentes
+│   │   ├── forms.css             # Formulários
+│   │   └── responsive.css        # Responsividade
+│   │
+│   ├── js/
+│   │   ├── core/
+│   │   │   ├── app.js            # Inicialização
+│   │   │   ├── api.js            # Chamadas API
+│   │   │   ├── auth.js           # Autenticação
+│   │   │   └── utils.js          # Utilitários
+│   │   │
+│   │   ├── components/
+│   │   │   ├── navbar.js         # Barra de navegação
+│   │   │   ├── modal.js          # Modais
+│   │   │   ├── toast.js          # Notificações
+│   │   │   ├── product-card.js   # Card de produto
+│   │   │   └── cart-widget.js    # Widget carrinho
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── home.js           # Página inicial
+│   │   │   ├── login.js          # Login
+│   │   │   ├── register.js       # Cadastro
+│   │   │   ├── products.js       # Lista produtos
+│   │   │   ├── product-detail.js # Detalhe produto
+│   │   │   ├── cart.js           # Carrinho
+│   │   │   ├── checkout.js       # Finalizar compra
+│   │   │   └── profile.js        # Perfil usuário
+│   │   │
+│   │   ├── producer/
+│   │   │   ├── dashboard.js      # Dashboard produtor
+│   │   │   ├── products.js       # Gerenciar produtos
+│   │   │   └── orders.js         # Pedidos
+│   │   │
+│   │   └── services/
+│   │       ├── product.service.js    # Serviços produtos
+│   │       ├── cart.service.js       # Serviços carrinho
+│   │       ├── order.service.js      # Serviços pedidos
+│   │       └── user.service.js       # Serviços usuário
+│   │
+│   ├── images/
+│   │   ├── logo/
+│   │   │   ├── logo.svg
+│   │   │   └── favicon.ico
+│   │   │
+│   │   ├── icons/
+│   │   │   └── categories/        # Ícones categorias
+│   │   │
+│   │   └── placeholders/
+│   │       ├── product.jpg
+│   │       └── user.jpg
+│   │
+│   └── fonts/
+│       └── inter/                 # Fonte principal
+│
+├── pages/
+│   ├── index.html                # Página inicial
+│   ├── login.html               # Login
+│   ├── register.html            # Cadastro
+│   ├── products.html            # Lista produtos
+│   ├── product.html             # Detalhe produto
+│   ├── cart.html                # Carrinho
+│   ├── checkout.html            # Checkout
+│   ├── profile.html             # Perfil
+│   ├── orders.html              # Pedidos
+│   │
+│   └── producer/
+│       ├── dashboard.html       # Dashboard
+│       ├── products.html        # Produtos
+│       └── orders.html          # Pedidos
+│
+├── components/
+│   ├── navbar.html              # Barra navegação
+│   ├── footer.html              # Rodapé
+│   ├── modal.html               # Modal base
+│   ├── product-card.html        # Card produto
+│   ├── cart-item.html           # Item carrinho
+│   └── order-card.html          # Card pedido
+│
+├── .gitignore                   # Arquivos ignorados
+├── package.json                 # Dependências
+├── README.md                    # Documentação
+└── index.html                   # Página principal
