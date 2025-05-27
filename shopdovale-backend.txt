@@ -8,21 +8,21 @@ shopdovale-backend/
 │   │   ├── authController.js     # Login, registro ---- feito
 │   │   ├── userController.js     # CRUD usuários ---- feito
 │   │   ├── produtoController.js  # CRUD produtos ---- feito
-│   │   ├── carrinhoController.js # CRUD carrinho
-│   │   ├── pedidoController.js   # CRUD pedidos
-│   │   └── dashboardController.js# Dashboard básico
+│   │   ├── carrinhoController.js # CRUD carrinho ---- feito
+│   │   ├── pedidoController.js   # CRUD pedidos ---- feito
+│   │   └── dashboardController.js# Dashboard básico ---- feito
 │   │
 │   ├── middlewares/
-│   │   ├── auth.js              # Verificação JWT
-│   │   ├── validation.js        # Validação básica
-│   │   └── errorHandler.js      # Tratamento de erros
+│   │   ├── auth.js              # Verificação JWT ---- feito
+│   │   ├── validation.js        # Validação básica ---- feito
+│   │   └── errorHandler.js      # Tratamento de erros ---- feito
 │   │
 │   ├── models/
-│   │   ├── User.js              # Model usuários
-│   │   ├── Produto.js           # Model produtos
-│   │   ├── Carrinho.js          # Model carrinho
-│   │   ├── Pedido.js            # Model pedidos
-│   │   └── Endereco.js          # Model endereços
+│   │   ├── User.js              # Model usuários ---- feito
+│   │   ├── Produto.js           # Model produtos ---- feito
+│   │   ├── Carrinho.js          # Model carrinho ---- feito
+│   │   ├── Pedido.js            # Model pedidos ---- feito
+│   │   └── Endereco.js          # Model endereços ---- feito
 │   │
 │   ├── routes/
 │   │   ├── auth.js              # Rotas autenticação
