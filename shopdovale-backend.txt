@@ -25,17 +25,17 @@ shopdovale-backend/
 │   │   └── Endereco.js          # Model endereços ---- feito
 │   │
 │   ├── routes/
-│   │   ├── auth.js              # Rotas autenticação
-│   │   ├── users.js             # Rotas usuários
-│   │   ├── produtos.js          # Rotas produtos
-│   │   ├── carrinho.js          # Rotas carrinho
-│   │   ├── pedidos.js           # Rotas pedidos
-│   │   ├── dashboard.js         # Rotas dashboard
-│   │   └── index.js             # Centralizador de rotas
+│   │   ├── auth.js              # Rotas autenticação ---- feito
+│   │   ├── users.js             # Rotas usuários ---- feito
+│   │   ├── produtos.js          # Rotas produtos ---- feito
+│   │   ├── carrinho.js          # Rotas carrinho ---- feito
+│   │   ├── pedidos.js           # Rotas pedidos ---- feito
+│   │   ├── dashboard.js         # Rotas dashboard ---- feito
+│   │   └── index.js             # Centralizador de rotas ---- feito
 │   │
 │   ├── services/
-│   │   ├── emailService.js      # Envio de emails básico
-│   │   └── weeklyService.js     # Renovação semanal
+│   │   ├── emailService.js      # Envio de emails básico ---- feito
+│   │   └── weeklyService.js     # Renovação semanal ---- feito
 │   │
 │   ├── utils/
 │   │   ├── helpers.js           # Funções auxiliares
