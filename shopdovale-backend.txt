@@ -34,8 +34,8 @@ shopdovale-backend/
 │   │   └── index.js             # Centralizador de rotas ---- feito
 │   │
 │   ├── services/
-│   │   ├── emailService.js      # Envio de emails básico
-│   │   └── weeklyService.js     # Renovação semanal
+│   │   ├── emailService.js      # Envio de emails básico ---- feito
+│   │   └── weeklyService.js     # Renovação semanal ---- feito
 │   │
 │   ├── utils/
 │   │   ├── helpers.js           # Funções auxiliares
