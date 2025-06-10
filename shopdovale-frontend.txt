@@ -6,7 +6,7 @@ shopdovale-frontend/
 │   │   ├── main.css              # Estilos principais ---- feito
 │   │   ├── components.css         # Componentes
 │   │   ├── forms.css             # Formulários ---- feito
-│   │   └── responsive.css        # Responsividade
+│   │   └── responsive.css        # Responsividade ---- feito
 │   │
 │   ├── js/
 │   │   ├── core/
