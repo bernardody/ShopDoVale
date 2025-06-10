@@ -38,10 +38,10 @@ shopdovale-backend/
 │   │   └── weeklyService.js     # Renovação semanal ---- feito
 │   │
 │   ├── utils/
-│   │   ├── helpers.js           # Funções auxiliares
-│   │   └── validators.js        # Validadores básicos
+│   │   ├── helpers.js           # Funções auxiliares ---- feito
+│   │   └── validators.js        # Validadores básicos ---- feito
 │   │
-│   └── app.js                   # Configuração principal
+│   └── app.js                   # Configuração principal ---- feito
 │
 ├── uploads/                     # Arquivos enviados
 │   └── products/               # Imagens de produtos
