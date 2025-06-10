@@ -1,9 +1,9 @@
 shopdovale-frontend/
 ├── assets/
 │   ├── css/
-│   │   ├── reset.css              # Reset CSS
-│   │   ├── variables.css          # Variáveis CSS
-│   │   ├── main.css              # Estilos principais
+│   │   ├── reset.css              # Reset CSS ---- feito
+│   │   ├── variables.css          # Variáveis CSS ---- feito
+│   │   ├── main.css              # Estilos principais ---- feito
 │   │   ├── components.css         # Componentes
 │   │   ├── forms.css             # Formulários
 │   │   └── responsive.css        # Responsividade
