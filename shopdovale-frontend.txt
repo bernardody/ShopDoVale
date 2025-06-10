@@ -5,15 +5,15 @@ shopdovale-frontend/
 │   │   ├── variables.css          # Variáveis CSS ---- feito
 │   │   ├── main.css              # Estilos principais ---- feito
 │   │   ├── components.css         # Componentes
-│   │   ├── forms.css             # Formulários
+│   │   ├── forms.css             # Formulários ---- feito
 │   │   └── responsive.css        # Responsividade
 │   │
 │   ├── js/
 │   │   ├── core/
-│   │   │   ├── app.js            # Inicialização
-│   │   │   ├── api.js            # Chamadas API
-│   │   │   ├── auth.js           # Autenticação
-│   │   │   └── utils.js          # Utilitários
+│   │   │   ├── app.js            # Inicialização ---- feito
+│   │   │   ├── api.js            # Chamadas API ---- feito
+│   │   │   ├── auth.js           # Autenticação ---- feito
+│   │   │   └── utils.js          # Utilitários ---- feito
 │   │   │
 │   │   ├── components/
 │   │   │   ├── navbar.js         # Barra de navegação
@@ -85,4 +85,4 @@ shopdovale-frontend/
 ├── .gitignore                   # Arquivos ignorados
 ├── package.json                 # Dependências
 ├── README.md                    # Documentação
-└── index.html                   # Página principal
+└── index.html                   # Página principal ---- feito
