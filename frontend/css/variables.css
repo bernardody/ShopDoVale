@@ -1,0 +1,181 @@
+/* Variáveis CSS - Shop do Vale
+   Define cores, tipografia, espaçamentos e outras variáveis globais
+   ========================================================================== */
+
+:root {
+  /* ===== CORES PRINCIPAIS ===== */
+  
+  /* Verde - Cor principal (produtos orgânicos) */
+  --color-primary: #2D6A4F;
+  --color-primary-light: #52B788;
+  --color-primary-lighter: #95D5B2;
+  --color-primary-lightest: #D8F3DC;
+  --color-primary-dark: #1B5E3F;
+  --color-primary-darker: #081C15;
+  
+  /* Branco e Neutros */
+  --color-white: #FFFFFF;
+  --color-gray-50: #F8F9FA;
+  --color-gray-100: #F1F3F4;
+  --color-gray-200: #E8EAED;
+  --color-gray-300: #DADCE0;
+  --color-gray-400: #BDC1C6;
+  --color-gray-500: #9AA0A6;
+  --color-gray-600: #5F6368;
+  --color-gray-700: #3C4043;
+  --color-gray-800: #202124;
+  --color-gray-900: #0F1419;
+  
+  /* Marrom - Cor de apoio (terra, natural) */
+  --color-brown: #8B5A3C;
+  --color-brown-light: #A0826D;
+  --color-brown-lighter: #D4A574;
+  --color-brown-dark: #654321;
+  
+  /* Cores de Sistema */
+  --color-success: #52B788;
+  --color-error: #D64545;
+  --color-warning: #F4A261;
+  --color-info: #4ECDC4;
+  
+  /* Cores de Texto */
+  --color-text-primary: #202124;
+  --color-text-secondary: #5F6368;
+  --color-text-disabled: #9AA0A6;
+  --color-text-white: #FFFFFF;
+  
+  /* Cores de Background */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8F9FA;
+  --color-bg-tertiary: #F1F3F4;
+  
+  /* ===== TIPOGRAFIA ===== */
+  
+  /* Família de Fontes */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+  
+  /* Tamanhos de Fonte */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3rem;       /* 48px */
+  
+  /* Peso das Fontes */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Altura de Linha */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* ===== ESPAÇAMENTOS ===== */
+  
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 2rem;       /* 32px */
+  --spacing-2xl: 2.5rem;    /* 40px */
+  --spacing-3xl: 3rem;      /* 48px */
+  --spacing-4xl: 4rem;      /* 64px */
+  --spacing-5xl: 5rem;      /* 80px */
+  
+  /* ===== BORDAS ===== */
+  
+  /* Raios de Borda */
+  --radius-sm: 0.25rem;     /* 4px */
+  --radius-md: 0.375rem;    /* 6px */
+  --radius-lg: 0.5rem;      /* 8px */
+  --radius-xl: 0.75rem;     /* 12px */
+  --radius-2xl: 1rem;       /* 16px */
+  --radius-full: 9999px;    /* Círculo completo */
+  
+  /* Largura de Borda */
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+  
+  /* ===== SOMBRAS ===== */
+  
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Sombras Coloridas */
+  --shadow-primary: 0 4px 14px 0 rgba(45, 106, 79, 0.3);
+  --shadow-success: 0 4px 14px 0 rgba(82, 183, 136, 0.3);
+  --shadow-error: 0 4px 14px 0 rgba(214, 69, 69, 0.3);
+  
+  /* ===== TRANSIÇÕES ===== */
+  
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+  
+  /* ===== Z-INDEX ===== */
+  
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+  --z-index-toast: 1080;
+  
+  /* ===== BREAKPOINTS ===== */
+  
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  /* ===== CONTAINERS ===== */
+  
+  --container-xs: 100%;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  
+  /* ===== COMPONENTES ESPECÍFICOS ===== */
+  
+  /* Navbar */
+  --navbar-height: 64px;
+  --navbar-bg: var(--color-white);
+  --navbar-border: var(--color-gray-200);
+  
+  /* Cards */
+  --card-bg: var(--color-white);
+  --card-border: var(--color-gray-200);
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+  
+  /* Botões */
+  --btn-height-sm: 32px;
+  --btn-height-md: 40px;
+  --btn-height-lg: 48px;
+  --btn-padding-x: var(--spacing-lg);
+  
+  /* Formulários */
+  --input-height: 40px;
+  --input-bg: var(--color-white);
+  --input-border: var(--color-gray-300);
+  --input-border-focus: var(--color-primary);
+  --input-shadow-focus: 0 0 0 3px rgba(45, 106, 79, 0.1);
+}
