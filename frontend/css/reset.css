@@ -1,0 +1,153 @@
+/* Reset CSS - Shop do Vale
+   Normaliza estilos entre navegadores para garantir consistência
+   ========================================================================== */
+
+/* Box sizing padrão mais intuitivo */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Remove margens e paddings padrão */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Altura total da página */
+html, body {
+  height: 100%;
+}
+
+/* Configurações base do body */
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Melhor display padrão para mídias */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Remove estilos padrão de formulários */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Remove underline de links com classe específica */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove estilos de lista */
+ul, ol {
+  list-style: none;
+}
+
+/* Tabelas com espaçamento colapsado */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Remove aparência padrão de botões */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Elementos de formulário mais acessíveis */
+button, input, select, textarea {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Remove setas de input number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Remove X do input search */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+/* Melhor controle de overflow em elementos */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* Remove espaçamento extra em elementos inline */
+span, a, strong, em, small, del, ins, sub, sup {
+  vertical-align: baseline;
+}
+
+/* Reset de elementos semânticos HTML5 */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+/* Configuração de foco acessível */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Scroll suave como padrão */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Previne zoom em inputs no iOS */
+@media (hover: none) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Remove delay de toque em dispositivos móveis */
+a, button {
+  touch-action: manipulation;
+}
+
+/* Classe utilitária para ocultar visualmente mas manter acessível */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
