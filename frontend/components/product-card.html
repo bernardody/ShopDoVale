@@ -1,0 +1,53 @@
+<!-- Product Card Component HTML Template -->
+<div class="product-card" data-product-id="{id}">
+    <!-- Image -->
+    <div class="product-card-image">
+        <img src="{image}" alt="{name}" loading="lazy">
+        
+        <!-- Badge (optional) -->
+        <span class="product-card-badge {badgeClass}" style="{badgeStyle}">
+            {badgeText}
+        </span>
+        
+        <!-- Wishlist Button -->
+        <button class="product-card-wishlist" aria-label="Adicionar aos favoritos">
+            <span class="material-icons">favorite_border</span>
+        </button>
+    </div>
+    
+    <!-- Body -->
+    <div class="product-card-body">
+        <!-- Category -->
+        <div class="product-card-category">{category}</div>
+        
+        <!-- Title -->
+        <h4 class="product-card-title">
+            <a href="/produto/{id}">{name}</a>
+        </h4>
+        
+        <!-- Producer -->
+        <div class="product-card-producer">
+            <img src="{producerAvatar}" alt="{producerName}">
+            <span>{producerName}</span>
+        </div>
+        
+        <!-- Price -->
+        <div class="product-card-price">
+            <span class="product-card-price-current">{price}</span>
+            <span class="product-card-price-unit">/{unit}</span>
+            <span class="product-card-price-old" style="{oldPriceStyle}">{oldPrice}</span>
+        </div>
+        
+        <!-- Actions -->
+        <div class="product-card-actions">
+            <button class="btn btn-outline btn-sm" onclick="ProductCard.quickView('{id}')">
+                <span class="material-icons">visibility</span>
+                <span class="hide-mobile">Ver Detalhes</span>
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="ProductCard.addToCart('{id}')">
+                <span class="material-icons">add_shopping_cart</span>
+                <span class="hide-mobile">Adicionar</span>
+            </button>
+        </div>
+    </div>
+</div>
