@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login - Shop do Vale">
+    <title>Login - Shop do Vale</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/logo/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/variables.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/forms.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="auth-page">
+        <div class="container">
+            <div class="auth-container">
+                <!-- Logo -->
+                <div class="auth-logo">
+                    <a href="/">
+                        <img src="/assets/images/logo/logo.svg" alt="Shop do Vale">
+                    </a>
+                </div>
+
+                <!-- Login Form -->
+                <div class="auth-box">
+                    <h1 class="auth-title">Entrar na sua conta</h1>
+                    <p class="auth-subtitle">Bem-vindo de volta! Entre com seus dados.</p>
+
+                    <form id="login-form" class="auth-form">
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email" class="form-label">E-mail</label>
+                            <div class="input-icon">
+                                <input 
+                                    type="email" 
+                                    class="form-control" 
+                                    id="email" 
+                                    name="email"
+                                    placeholder="seu@email.com"
+                                    required
+                                >
+                                <span class="material-icons icon">mail</span>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="password" class="form-label">
+                                Senha
+                                <a href="/recuperar-senha" class="form-label-link">Esqueceu a senha?</a>
+                            </label>
+                            <div class="input-icon">
+                                <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    id="password" 
+                                    name="password"
+                                    placeholder="••••••••"
+                                    required
+                                >
+                                <span class="material-icons icon">lock</span>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Remember me -->
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input 
+                                    type="checkbox" 
+                                    class="form-check-input" 
+                                    id="remember"
+                                    name="remember"
+                                >
+                                <label class="form-check-label" for="remember">
+                                    Lembrar de mim
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit-btn">
+                            <span>Entrar</span>
+                            <div class="spinner d-none"></div>
+                        </button>
+
+                        <!-- Divider -->
+                        <div class="divider">
+                            <span>ou</span>
+                        </div>
+
+                        <!-- Social Login -->
+                        <button type="button" class="btn btn-outline btn-block btn-social">
+                            <img src="/assets/images/icons/google.svg" alt="Google" width="20" height="20">
+                            Entrar com Google
+                        </button>
+
+                        <!-- Register Link -->
+                        <div class="form-footer">
+                            <p>Não tem uma conta? <a href="/cadastro" class="text-primary font-semibold">Criar conta</a></p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Features -->
+                <div class="auth-features">
+                    <div class="feature">
+                        <span class="material-icons">local_shipping</span>
+                        <span>Entrega rápida e segura</span>
+                    </div>
+                    <div class="feature">
+                        <span class="material-icons">eco</span>
+                        <span>Produtos orgânicos certificados</span>
+                    </div>
+                    <div class="feature">
+                        <span class="material-icons">support_agent</span>
+                        <span>Suporte ao cliente 24/7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="/assets/js/core/utils.js"></script>
+    <script src="/assets/js/core/api.js"></script>
+    <script src="/assets/js/core/auth.js"></script>
+    <script src="/assets/js/components/toast.js"></script>
+    <script src="/assets/js/pages/login.js"></script>
+</body>
+</html>
