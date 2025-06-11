@@ -183,21 +183,39 @@ const CartWidget = (() => {
                         ${Utils.formatCurrency(item.produto.preco)} x ${item.quantidade}
                     </div>
                     <div class="cart-item-quantity">
-                        <button onclick="CartWidget.updateQuantity('${item.id}', ${item.quantidade - 1})">
+                        <button data-action="decrease" data-item-id="${item.id}" data-quantity="${item.quantidade}">
                             <span class="material-icons">remove</span>
                         </button>
                         <span>${item.quantidade}</span>
-                        <button onclick="CartWidget.updateQuantity('${item.id}', ${item.quantidade + 1})">
+                        <button data-action="increase" data-item-id="${item.id}" data-quantity="${item.quantidade}">
                             <span class="material-icons">add</span>
                         </button>
                     </div>
                 </div>
                 
-                <button class="cart-item-remove" onclick="CartWidget.removeItem('${item.id}')">
+                <button class="cart-item-remove" data-action="remove" data-item-id="${item.id}">
                     <span class="material-icons">close</span>
                 </button>
             </div>
         `).join('');
+
+        // Adiciona event listeners aos botões
+        itemsContainer.querySelectorAll('[data-action]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = btn.getAttribute('data-action');
+                const itemId = btn.getAttribute('data-item-id');
+                const quantity = parseInt(btn.getAttribute('data-quantity') || '0');
+                
+                if (action === 'increase') {
+                    updateQuantity(itemId, quantity + 1);
+                } else if (action === 'decrease') {
+                    updateQuantity(itemId, quantity - 1);
+                } else if (action === 'remove') {
+                    removeItem(itemId);
+                }
+            });
+        });
 
         // Atualiza total
         totalElement.textContent = Utils.formatCurrency(cartData.total || 0);
