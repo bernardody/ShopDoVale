@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Produtos frescos - Shop do Vale">
+    <title>Produtos - Shop do Vale</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/logo/favicon.ico">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/variables.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/forms.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    
+    <!-- Products Page Styles -->
+    <style>
+        /* Page Header */
+        .page-header {
+            background: var(--color-background);
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumb a {
+            color: var(--color-text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--color-primary);
+        }
+        
+        .breadcrumb .material-icons {
+            font-size: 18px;
+            color: var(--color-text-gray);
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: var(--color-text-dark);
+            margin: 0;
+        }
+        
+        /* Products Layout */
+        .products-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            min-height: 60vh;
+        }
+        
+        /* Sidebar Filters */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-section h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .filter-section h3 .material-icons {
+            font-size: 20px;
+            color: var(--color-text-gray);
+            cursor: pointer;
+        }
+        
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+        
+        .filter-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .filter-item input[type="checkbox"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .filter-item label {
+            flex: 1;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-count {
+            font-size: 0.875rem;
+            color: var(--color-text-gray);
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .price-range input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        
+        .clear-filters {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            color: var(--color-text);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .clear-filters:hover {
+            background: var(--color-background);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+        }
+        
+        /* Toolbar */
+        .products-toolbar {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .results-info {
+            color: var(--color-text-gray);
+        }
+        
+        .toolbar-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            background: white;
+            color: var(--color-text);
+            cursor: pointer;
+            min-width: 200px;
+        }
+        
+        .view-toggle {
+            display: flex;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .view-toggle button {
+            padding: 0.5rem 0.75rem;
+            background: white;
+            border: none;
+            cursor: pointer;
+            color: var(--color-text-gray);
+            transition: all 0.3s;
+        }
+        
+        .view-toggle button.active {
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .view-toggle button:hover:not(.active) {
+            background: var(--color-background);
+        }
+        
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        /* List View Product Card */
+        .product-card-list {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .product-card-list:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-card-list .product-card-image {
+            width: 200px;
+            height: 200px;
+            flex-shrink: 0;
+        }
+        
+        .product-card-list .product-card-body {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Loading & Empty States */
+        .loading-state,
+        .empty-state,
+        .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--color-text-gray);
+        }
+        
+        .loading-state .spinner {
+            margin: 0 auto 1rem;
+        }
+        
+        .empty-state .material-icons,
+        .error-state .material-icons {
+            font-size: 4rem;
+            color: var(--color-text-light);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+        
+        .pagination button {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            background: var(--color-background);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+        
+        .pagination button.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Mobile Toggle */
+        .mobile-filter-toggle {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .products-container {
+                gap: 1.5rem;
+            }
+            
+            .sidebar {
+                width: 240px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-filter-toggle {
+                display: flex;
+            }
+            
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100%;
+                background: white;
+                z-index: 1000;
+                overflow-y: auto;
+                transition: left 0.3s;
+                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .sidebar-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--color-border);
+            }
+            
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 1rem;
+            }
+            
+            .product-card-list {
+                flex-direction: column;
+            }
+            
+            .product-card-list .product-card-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .view-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+    
+    <!-- Cart Widget -->
+    <div id="cart-widget-container"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="container">
+                <nav class="breadcrumb">
+                    <a href="/">Início</a>
+                    <span class="material-icons">chevron_right</span>
+                    <span>Produtos</span>
+                </nav>
+                <h1 class="page-title" id="page-title">Todos os Produtos</h1>
+            </div>
+        </div>
+        
+        <!-- Products Container -->
+        <div class="container">
+            <div class="products-container">
+                <!-- Sidebar Filters -->
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>Filtros</h3>
+                        <button class="btn-icon" onclick="ProductsPage.toggleSidebar()">
+                            <span class="material-icons">close</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Categories Filter -->
+                    <div class="filter-section">
+                        <h3>Categorias</h3>
+                        <div class="filter-group" id="categories-filter">
+                            <!-- Categorias serão carregadas dinamicamente -->
+                        </div>
+                    </div>
+                    
+                    <!-- Price Filter -->
+                    <div class="filter-section">
+                        <h3>Preço</h3>
+                        <div class="filter-group">
+                            <div class="price-range">
+                                <input 
+                                    type="number" 
+                                    id="min-price" 
+                                    placeholder="Min"
+                                    min="0"
+                                    step="0.01"
+                                >
+                                <span>-</span>
+                                <input 
+                                    type="number" 
+                                    id="max-price" 
+                                    placeholder="Max"
+                                    min="0"
+                                    step="0.01"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Filters -->
+                    <button class="clear-filters" onclick="ProductsPage.clearFilters()">
+                        Limpar Filtros
+                    </button>
+                </aside>
+                
+                <!-- Sidebar Overlay -->
+                <div class="sidebar-overlay" id="sidebar-overlay" onclick="ProductsPage.toggleSidebar()"></div>
+                
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Toolbar -->
+                    <div class="products-toolbar">
+                        <div class="results-info" id="results-info">
+                            Carregando produtos...
+                        </div>
+                        
+                        <div class="toolbar-actions">
+                            <select class="sort-select" id="sort-select">
+                                <option value="">Ordenar por</option>
+                                <option value="nome_asc">Nome (A-Z)</option>
+                                <option value="nome_desc">Nome (Z-A)</option>
+                                <option value="preco_asc">Menor preço</option>
+                                <option value="preco_desc">Maior preço</option>
+                                <option value="recentes">Mais recentes</option>
+                            </select>
+                            
+                            <div class="view-toggle">
+                                <button class="active" data-view="grid" title="Visualização em grade">
+                                    <span class="material-icons">grid_view</span>
+                                </button>
+                                <button data-view="list" title="Visualização em lista">
+                                    <span class="material-icons">view_list</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Products Grid/List -->
+                    <div class="products-grid" id="products-container">
+                        <!-- Produtos serão carregados dinamicamente -->
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <!-- Paginação será carregada dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Mobile Filter Toggle -->
+    <button class="mobile-filter-toggle" onclick="ProductsPage.toggleSidebar()">
+        <span class="material-icons">filter_list</span>
+    </button>
+    
+    <!-- Product Card Template -->
+    <template id="product-card-template">
+        <!-- Conteúdo do product-card.html -->
+    </template>
+    
+    <!-- Scripts -->
+    <script src="/assets/js/core/utils.js"></script>
+    <script src="/assets/js/core/api.js"></script>
+    <script src="/assets/js/core/auth.js"></script>
+    <script src="/assets/js/components/toast.js"></script>
+    <script src="/assets/js/components/modal.js"></script>
+    <script src="/assets/js/components/navbar.js"></script>
+    <script src="/assets/js/components/cart-widget.js"></script>
+    <script src="/assets/js/components/product-card.js"></script>
+    <script src="/assets/js/services/product.service.js"></script>
+    <script src="/assets/js/pages/products.js"></script>
+    <script src="/assets/js/core/app.js"></script>
+</body>
+</html>
