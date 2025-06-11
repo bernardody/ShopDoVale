@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Criar Conta - Shop do Vale">
+    <title>Criar Conta - Shop do Vale</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/logo/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/variables.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/forms.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="auth-page">
+        <div class="container">
+            <div class="auth-container">
+                <!-- Logo -->
+                <div class="auth-logo">
+                    <a href="/">
+                        <img src="/assets/images/logo/logo.svg" alt="Shop do Vale">
+                    </a>
+                </div>
+
+                <!-- Register Form -->
+                <div class="auth-box">
+                    <h1 class="auth-title">Criar sua conta</h1>
+                    <p class="auth-subtitle">Junte-se a nós e descubra produtos orgânicos incríveis!</p>
+
+                    <!-- Account Type Selector -->
+                    <div class="account-type-selector" id="account-type-selector">
+                        <button type="button" class="account-type active" data-type="consumidor">
+                            <span class="material-icons">shopping_cart</span>
+                            <div>
+                                <h4>Sou Consumidor</h4>
+                                <p>Quero comprar produtos orgânicos</p>
+                            </div>
+                        </button>
+                        <button type="button" class="account-type" data-type="produtor">
+                            <span class="material-icons">agriculture</span>
+                            <div>
+                                <h4>Sou Produtor</h4>
+                                <p>Quero vender meus produtos</p>
+                            </div>
+                        </button>
+                    </div>
+
+                    <form id="register-form" class="auth-form">
+                        <!-- Nome -->
+                        <div class="form-group">
+                            <label for="nome" class="form-label">Nome completo</label>
+                            <div class="input-icon">
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="nome" 
+                                    name="nome"
+                                    placeholder="João Silva"
+                                    required
+                                >
+                                <span class="material-icons icon">person</span>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email" class="form-label">E-mail</label>
+                            <div class="input-icon">
+                                <input 
+                                    type="email" 
+                                    class="form-control" 
+                                    id="email" 
+                                    name="email"
+                                    placeholder="seu@email.com"
+                                    required
+                                >
+                                <span class="material-icons icon">mail</span>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Telefone -->
+                        <div class="form-group">
+                            <label for="telefone" class="form-label">Telefone</label>
+                            <div class="input-icon">
+                                <input 
+                                    type="tel" 
+                                    class="form-control" 
+                                    id="telefone" 
+                                    name="telefone"
+                                    placeholder="(11) 98765-4321"
+                                    required
+                                >
+                                <span class="material-icons icon">phone</span>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- CPF/CNPJ (dinâmico baseado no tipo) -->
+                        <div class="form-group" id="documento-group">
+                            <label for="documento" class="form-label" id="documento-label">CPF</label>
+                            <div class="input-icon">
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="documento" 
+                                    name="documento"
+                                    placeholder="000.000.000-00"
+                                    required
+                                >
+                                <span class="material-icons icon">badge</span>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Campos extras para produtor -->
+                        <div id="producer-fields" class="d-none">
+                            <!-- Nome da Propriedade -->
+                            <div class="form-group">
+                                <label for="nome_propriedade" class="form-label">Nome da Propriedade</label>
+                                <div class="input-icon">
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="nome_propriedade" 
+                                        name="nome_propriedade"
+                                        placeholder="Fazenda São João"
+                                    >
+                                    <span class="material-icons icon">home</span>
+                                </div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+
+                            <!-- Descrição -->
+                            <div class="form-group">
+                                <label for="descricao" class="form-label">Descrição da Propriedade</label>
+                                <textarea 
+                                    class="form-control" 
+                                    id="descricao" 
+                                    name="descricao"
+                                    rows="3"
+                                    placeholder="Conte um pouco sobre sua propriedade e produtos..."
+                                ></textarea>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="password" class="form-label">Senha</label>
+                            <div class="input-icon">
+                                <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    id="password" 
+                                    name="password"
+                                    placeholder="••••••••"
+                                    required
+                                >
+                                <span class="material-icons icon">lock</span>
+                            </div>
+                            <div class="form-text">Mínimo de 6 caracteres</div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-group">
+                            <label for="password_confirmation" class="form-label">Confirmar Senha</label>
+                            <div class="input-icon">
+                                <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    id="password_confirmation" 
+                                    name="password_confirmation"
+                                    placeholder="••••••••"
+                                    required
+                                >
+                                <span class="material-icons icon">lock</span>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input 
+                                    type="checkbox" 
+                                    class="form-check-input" 
+                                    id="terms"
+                                    name="terms"
+                                    required
+                                >
+                                <label class="form-check-label" for="terms">
+                                    Li e concordo com os <a href="/termos" target="_blank">Termos de Uso</a> e a <a href="/privacidade" target="_blank">Política de Privacidade</a>
+                                </label>
+                            </div>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit-btn">
+                            <span>Criar conta</span>
+                            <div class="spinner d-none"></div>
+                        </button>
+
+                        <!-- Login Link -->
+                        <div class="form-footer">
+                            <p>Já tem uma conta? <a href="/login" class="text-primary font-semibold">Fazer login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="/assets/js/core/utils.js"></script>
+    <script src="/assets/js/core/api.js"></script>
+    <script src="/assets/js/core/auth.js"></script>
+    <script src="/assets/js/components/toast.js"></script>
+    <script src="/assets/js/pages/register.js"></script>
+</body>
+</html>
