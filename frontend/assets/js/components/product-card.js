@@ -144,6 +144,22 @@ const ProductCard = (() => {
                 App.navigateTo(`/produto/${product.id}`);
             });
         }
+
+        // Botões de ação
+        const actionButtons = card.querySelectorAll('[data-action]');
+        actionButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = btn.getAttribute('data-action');
+                const productId = btn.getAttribute('data-product-id');
+                
+                if (action === 'quick-view') {
+                    quickView(productId);
+                } else if (action === 'add-to-cart') {
+                    addToCart(productId);
+                }
+            });
+        });
     };
 
     // Determina texto do badge
@@ -285,11 +301,11 @@ const ProductCard = (() => {
                         </div>
                         
                         <div class="d-flex gap-2">
-                            <button class="btn btn-primary flex-1" onclick="ProductCard.addToCart('${product.id}')">
+                            <button class="btn btn-primary flex-1" data-action="add-to-cart-modal" data-product-id="${product.id}">
                                 <span class="material-icons">add_shopping_cart</span>
                                 Adicionar ao Carrinho
                             </button>
-                            <button class="btn btn-outline" onclick="App.navigateTo('/produto/${product.id}')">
+                            <button class="btn btn-outline" data-action="view-product" data-product-id="${product.id}">
                                 Ver Mais
                             </button>
                         </div>
@@ -305,6 +321,28 @@ const ProductCard = (() => {
             });
             
             Modal.open(modalId);
+            
+            // Adiciona event listeners aos botões do modal
+            setTimeout(() => {
+                const modal = document.getElementById(`modal-${modalId.split('-')[1]}`);
+                if (modal) {
+                    modal.querySelectorAll('[data-action]').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const action = btn.getAttribute('data-action');
+                            const productId = btn.getAttribute('data-product-id');
+                            
+                            if (action === 'add-to-cart-modal') {
+                                Modal.close(modalId);
+                                addToCart(productId);
+                            } else if (action === 'view-product') {
+                                Modal.close(modalId);
+                                App.navigateTo(`/produto/${productId}`);
+                            }
+                        });
+                    });
+                }
+            }, 100);
         } catch (error) {
             Toast.error('Erro ao carregar produto');
         }
