@@ -67,7 +67,7 @@ const Modal = (() => {
         
         html = html
             .replace(/{footer}/g, footerContent)
-            .replace(/{footerStyle}/g, config.showFooter && footerContent ? '' : 'display: none');
+            .replace(/{footerStyle}/g, config.showFooter && footerContent ? '' : 'style="display: none"');
         
         // Cria elemento temporário para inserir HTML
         const temp = document.createElement('div');
