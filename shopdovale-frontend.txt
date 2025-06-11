@@ -16,11 +16,12 @@ shopdovale-frontend/
 │   │   │   └── utils.js          # Utilitários ---- feito
 │   │   │
 │   │   ├── components/
-│   │   │   ├── navbar.js         # Barra de navegação
-│   │   │   ├── modal.js          # Modais
-│   │   │   ├── toast.js          # Notificações
-│   │   │   ├── product-card.js   # Card de produto
-│   │   │   └── cart-widget.js    # Widget carrinho
+│   │   │   ├── navbar.js         # Barra de navegação ---- feito
+│   │   │   ├── modal.js          # Modais ---- feito
+│   │   │   ├── toast.js          # Notificações ---- feito
+│   │   │   ├── product-card.js   # Card de produto ---- feito
+│   │   │   └── cart-widget.js    # Widget carrinho ---- feito
+|   |	|    |___ footer.js         # Rodapé ---- feito
 │   │   │
 │   │   ├── pages/
 │   │   │   ├── home.js           # Página inicial
