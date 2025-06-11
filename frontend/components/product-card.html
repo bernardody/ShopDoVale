@@ -40,11 +40,11 @@
         
         <!-- Actions -->
         <div class="product-card-actions">
-            <button class="btn btn-outline btn-sm" onclick="ProductCard.quickView('{id}')">
+            <button class="btn btn-outline btn-sm" data-action="quick-view" data-product-id="{id}">
                 <span class="material-icons">visibility</span>
                 <span class="hide-mobile">Ver Detalhes</span>
             </button>
-            <button class="btn btn-primary btn-sm" onclick="ProductCard.addToCart('{id}')">
+            <button class="btn btn-primary btn-sm" data-action="add-to-cart" data-product-id="{id}">
                 <span class="material-icons">add_shopping_cart</span>
                 <span class="hide-mobile">Adicionar</span>
             </button>
