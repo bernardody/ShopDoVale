@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - Shop do Vale</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Meu Carrinho</h1>
+        <nav>
+            <a href="produtos.html">← Voltar aos produtos</a> | 
+            <span id="userInfo"></span>
+            <a href="#" id="logout">Sair</a>
+        </nav>
+    </header>
+
+    <!-- Carrinho -->
+    <main>
+        <div id="carrinho-container">
+            <!-- Itens do carrinho serão carregados aqui -->
+        </div>
+        
+        <div id="total-container">
+            <h3>Total: R$ <span id="total">0.00</span></h3>
+            <button onclick="finalizarCompra()">Finalizar Compra</button>
+        </div>
+    </main>
+
+    <!-- Script para gerenciar carrinho -->
+    <script>
+        // Verificar se usuário está logado
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (!user.id) {
+            alert('Faça login para ver seu carrinho');
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userInfo').textContent = `${user.nome} | `;
+        }
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        });
+
+        // Carregar carrinho
+        async function carregarCarrinho() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/carrinho/${user.id}`);
+                const itens = await response.json();
+                
+                const container = document.getElementById('carrinho-container');
+                
+                if (itens.length === 0) {
+                    container.innerHTML = '<p>Seu carrinho está vazio.</p>';
+                    document.getElementById('total-container').style.display = 'none';
+                    return;
+                }
+                
+                let total = 0;
+                container.innerHTML = itens.map(item => {
+                    const subtotal = item.preco * item.quantidade;
+                    total += subtotal;
+                    
+                    return `
+                        <div>
+                            <h3>${item.nome}</h3>
+                            <p>Preço: R$ ${item.preco}/${item.unidade}</p>
+                            <p>
+                                Quantidade: 
+                                <button onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade - 1})">-</button>
+                                ${item.quantidade}
+                                <button onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade + 1})">+</button>
+                            </p>
+                            <p>Subtotal: R$ ${subtotal.toFixed(2)}</p>
+                            <button onclick="removerDoCarrinho(${item.produto_id})">Remover</button>
+                        </div>
+                    `;
+                }).join('');
+                
+                document.getElementById('total').textContent = total.toFixed(2);
+                
+            } catch (error) {
+                document.getElementById('carrinho-container').innerHTML = 
+                    '<p>Erro ao carregar carrinho. Tente novamente.</p>';
+            }
+        }
+
+        // Alterar quantidade
+        async function alterarQuantidade(produtoId, novaQuantidade) {
+            if (novaQuantidade < 1) {
+                removerDoCarrinho(produtoId);
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/carrinho', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        usuario_id: user.id,
+                        produto_id: produtoId,
+                        quantidade: novaQuantidade
+                    })
+                });
+                
+                if (response.ok) {
+                    carregarCarrinho();
+                }
+            } catch (error) {
+                alert('Erro ao atualizar quantidade');
+            }
+        }
+
+        // Remover do carrinho
+        async function removerDoCarrinho(produtoId) {
+            if (!confirm('Remover este item do carrinho?')) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/carrinho/${user.id}/${produtoId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    carregarCarrinho();
+                }
+            } catch (error) {
+                alert('Erro ao remover do carrinho');
+            }
+        }
+
+        // Finalizar compra (simplificado)
+        function finalizarCompra() {
+            alert('Compra finalizada! Entre em contato com os produtores para combinar a entrega.');
+            // Aqui você poderia limpar o carrinho, enviar email, etc.
+        }
+
+        // Carregar carrinho ao abrir a página
+        carregarCarrinho();
+    </script>
+</body>
+</html>

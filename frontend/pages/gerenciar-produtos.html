@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Produtos - Shop do Vale</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Gerenciar Meus Produtos</h1>
+        <nav>
+            <a href="painel-produtor.html">← Voltar ao painel</a> | 
+            <span id="userInfo"></span>
+            <a href="#" id="logout">Sair</a>
+        </nav>
+    </header>
+
+    <!-- Gerenciamento de Produtos -->
+    <main>
+        <!-- Formulário para adicionar produto -->
+        <section>
+            <h2>Adicionar Novo Produto</h2>
+            <form id="formProduto">
+                <input type="text" id="nome" placeholder="Nome do produto" required>
+                <input type="text" id="descricao" placeholder="Descrição">
+                <input type="number" id="preco" placeholder="Preço" step="0.01" required>
+                <select id="unidade" required>
+                    <option value="kg">kg</option>
+                    <option value="unidade">unidade</option>
+                    <option value="duzia">dúzia</option>
+                    <option value="maço">maço</option>
+                </select>
+                <input type="number" id="quantidade" placeholder="Quantidade disponível" required>
+                <select id="categoria">
+                    <option value="frutas">Frutas</option>
+                    <option value="verduras">Verduras</option>
+                    <option value="legumes">Legumes</option>
+                    <option value="temperos">Temperos</option>
+                </select>
+                <button type="submit">Adicionar Produto</button>
+            </form>
+        </section>
+
+        <!-- Lista de produtos -->
+        <section>
+            <h2>Meus Produtos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Unidade</th>
+                        <th>Estoque</th>
+                        <th>Categoria</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaProdutos">
+                    <!-- Produtos serão carregados aqui -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Script para gerenciar produtos -->
+    <script>
+        // Verificar se usuário está logado e é produtor
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (!user.id || user.tipo !== 'produtor') {
+            alert('Acesso restrito a produtores');
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userInfo').textContent = `${user.nome} | `;
+        }
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        });
+
+        // Adicionar produto
+        document.getElementById('formProduto').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const produto = {
+                nome: document.getElementById('nome').value,
+                descricao: document.getElementById('descricao').value,
+                preco: parseFloat(document.getElementById('preco').value),
+                unidade: document.getElementById('unidade').value,
+                quantidade_disponivel: parseInt(document.getElementById('quantidade').value),
+                categoria: document.getElementById('categoria').value,
+                produtor_id: user.id
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/produtos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(produto)
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    alert('Produto adicionado com sucesso!');
+                    document.getElementById('formProduto').reset();
+                    carregarProdutos();
+                }
+            } catch (error) {
+                alert('Erro ao adicionar produto');
+            }
+        });
+
+        // Carregar produtos do produtor
+        async function carregarProdutos() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/produtos/produtor/${user.id}`);
+                const produtos = await response.json();
+                
+                const tbody = document.getElementById('listaProdutos');
+                
+                if (produtos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7">Nenhum produto cadastrado</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = produtos.map(produto => `
+                    <tr>
+                        <td>${produto.nome}</td>
+                        <td>R$ ${produto.preco}</td>
+                        <td>${produto.unidade}</td>
+                        <td>${produto.quantidade_disponivel}</td>
+                        <td>${produto.categoria || '-'}</td>
+                        <td>${produto.ativo ? 'Ativo' : 'Inativo'}</td>
+                        <td>
+                            <button onclick="toggleStatus(${produto.id}, ${!produto.ativo})">
+                                ${produto.ativo ? 'Desativar' : 'Ativar'}
+                            </button>
+                            <button onclick="removerProduto(${produto.id})">Remover</button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+            }
+        }
+
+        // Ativar/Desativar produto
+        async function toggleStatus(produtoId, novoStatus) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/produtos/${produtoId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ativo: novoStatus })
+                });
+                
+                if (response.ok) {
+                    carregarProdutos();
+                }
+            } catch (error) {
+                alert('Erro ao atualizar status');
+            }
+        }
+
+        // Remover produto
+        async function removerProduto(produtoId) {
+            if (!confirm('Deseja remover este produto?')) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/produtos/${produtoId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    alert('Produto removido!');
+                    carregarProdutos();
+                }
+            } catch (error) {
+                alert('Erro ao remover produto');
+            }
+        }
+
+        // Carregar produtos ao abrir a página
+        carregarProdutos();
+    </script>
+</body>
+</html>

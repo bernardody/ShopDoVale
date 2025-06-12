@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Shop do Vale</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Shop do Vale</h1>
+        <a href="index.html">← Voltar ao início</a>
+    </header>
+
+    <!-- Formulário de Login -->
+    <main>
+        <h2>Entrar na conta</h2>
+        
+        <form id="loginForm">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required>
+            </div>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div id="mensagem"></div>
+
+        <p>Não tem conta? <a href="registro.html">Cadastre-se aqui</a></p>
+    </main>
+
+    <!-- Script básico para o login -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Salvar dados do usuário no localStorage
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // Redirecionar baseado no tipo de usuário
+                    if (data.user.tipo === 'produtor') {
+                        window.location.href = 'painel-produtor.html';
+                    } else {
+                        window.location.href = 'produtos.html';
+                    }
+                } else {
+                    document.getElementById('mensagem').innerHTML = 
+                        '<p style="color: red;">Email ou senha incorretos</p>';
+                }
+            } catch (error) {
+                document.getElementById('mensagem').innerHTML = 
+                    '<p style="color: red;">Erro ao fazer login</p>';
+            }
+        });
+    </script>
+</body>
+</html>

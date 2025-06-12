@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Shop do Vale</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Shop do Vale</h1>
+        <nav>
+            <a href="index.html">Início</a> | 
+            <a href="carrinho.html">🛒 Meu Carrinho</a> | 
+            <span id="userInfo"></span>
+            <a href="#" id="logout">Sair</a>
+        </nav>
+    </header>
+
+    <!-- Lista de Produtos -->
+    <main>
+        <h2>Produtos Disponíveis</h2>
+        
+        <div id="produtos-container">
+            <!-- Produtos serão carregados aqui -->
+        </div>
+    </main>
+
+    <!-- Script para carregar produtos -->
+    <script>
+        // Verificar se usuário está logado
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.nome) {
+            document.getElementById('userInfo').textContent = `Olá, ${user.nome} | `;
+        }
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        });
+
+        // Carregar produtos
+        async function carregarProdutos() {
+            try {
+                const response = await fetch('http://localhost:3000/api/produtos');
+                const produtos = await response.json();
+                
+                const container = document.getElementById('produtos-container');
+                
+                if (produtos.length === 0) {
+                    container.innerHTML = '<p>Nenhum produto disponível no momento.</p>';
+                    return;
+                }
+                
+                container.innerHTML = produtos.map(produto => `
+                    <div>
+                        <h3>${produto.nome}</h3>
+                        <p>${produto.descricao || 'Produto fresco e de qualidade'}</p>
+                        <p><strong>R$ ${produto.preco}/${produto.unidade}</strong></p>
+                        <p>Disponível: ${produto.quantidade_disponivel} ${produto.unidade}</p>
+                        <p>Produtor: ${produto.nome_produtor}</p>
+                        <button onclick="adicionarAoCarrinho(${produto.id}, '${produto.nome}')">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                document.getElementById('produtos-container').innerHTML = 
+                    '<p>Erro ao carregar produtos. Tente novamente.</p>';
+            }
+        }
+
+        // Adicionar ao carrinho
+        async function adicionarAoCarrinho(produtoId, nomeProduto) {
+            if (!user.id) {
+                alert('Faça login para adicionar produtos ao carrinho');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/carrinho', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        usuario_id: user.id,
+                        produto_id: produtoId,
+                        quantidade: 1
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    alert(`${nomeProduto} adicionado ao carrinho!`);
+                }
+            } catch (error) {
+                alert('Erro ao adicionar ao carrinho');
+            }
+        }
+
+        // Carregar produtos ao abrir a página
+        carregarProdutos();
+    </script>
+</body>
+</html>
