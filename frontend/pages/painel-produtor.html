@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
     <header>
         <h1>Painel do Produtor</h1>
         <nav>
@@ -16,7 +15,6 @@
         </nav>
     </header>
 
-    <!-- Painel Principal -->
     <main>
         <h2>Bem-vindo ao seu painel!</h2>
         
@@ -27,7 +25,7 @@
         </div>
 
         <div>
-            <h3>🔧 Ações Rápidas</h3>
+            <h3>Ações Rápidas</h3>
             <a href="gerenciar-produtos.html">
                 <button>Gerenciar Meus Produtos</button>
             </a>
@@ -39,12 +37,10 @@
         <div>
             <h3>Meus Produtos Recentes</h3>
             <div id="produtos-recentes">
-                <!-- Produtos recentes serão carregados aqui -->
             </div>
         </div>
     </main>
 
-    <!-- Script do painel -->
     <script>
         // Verificar se usuário está logado e é produtor
         const user = JSON.parse(localStorage.getItem('user') || '{}');

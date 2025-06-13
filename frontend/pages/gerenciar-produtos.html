@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
     <header>
         <h1>Gerenciar Meus Produtos</h1>
         <nav>
@@ -17,9 +16,7 @@
         </nav>
     </header>
 
-    <!-- Gerenciamento de Produtos -->
     <main>
-        <!-- Formulário para adicionar produto -->
         <section>
             <h2>Adicionar Novo Produto</h2>
             <form id="formProduto">
@@ -43,7 +40,6 @@
             </form>
         </section>
 
-        <!-- Lista de produtos -->
         <section>
             <h2>Meus Produtos</h2>
             <table>
@@ -59,13 +55,11 @@
                     </tr>
                 </thead>
                 <tbody id="listaProdutos">
-                    <!-- Produtos serão carregados aqui -->
                 </tbody>
             </table>
         </section>
     </main>
 
-    <!-- Script para gerenciar produtos -->
     <script>
         // Verificar se usuário está logado e é produtor
         const user = JSON.parse(localStorage.getItem('user') || '{}');
