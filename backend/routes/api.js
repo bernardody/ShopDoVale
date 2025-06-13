@@ -1,9 +1,6 @@
-// routes/api.js - Todas as rotas da API do Shop do Vale
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
-
-// ===== AUTENTICAÇÃO =====
 
 // POST /api/login - Login de usuário
 router.post('/login', (req, res) => {
@@ -48,8 +45,6 @@ router.post('/registro', (req, res) => {
     });
   });
 });
-
-// ===== PRODUTOS =====
 
 // GET /api/produtos - Listar todos os produtos ativos
 router.get('/produtos', (req, res) => {
@@ -139,8 +134,6 @@ router.delete('/produtos/:id', (req, res) => {
     res.json({ success: true, message: 'Produto removido com sucesso' });
   });
 });
-
-// ===== CARRINHO =====
 
 // GET /api/carrinho/:userId - Listar itens do carrinho
 router.get('/carrinho/:userId', (req, res) => {
