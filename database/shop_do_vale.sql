@@ -5,7 +5,7 @@ CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    senha VARCHAR(50) NOT NULL, -- Senha simples sem hash (apenas para MVP)
+    senha VARCHAR(50) NOT NULL,
     tipo ENUM('consumidor', 'produtor') NOT NULL,
     telefone VARCHAR(20),
     endereco VARCHAR(200),
@@ -18,12 +18,12 @@ CREATE TABLE produtos (
     nome VARCHAR(100) NOT NULL,
     descricao TEXT,
     preco DECIMAL(10, 2) NOT NULL,
-    unidade VARCHAR(20) DEFAULT 'kg', -- kg, unidade, dúzia, maço, etc
+    unidade VARCHAR(20) DEFAULT 'kg',
     quantidade_disponivel INT DEFAULT 0,
-    categoria VARCHAR(50), -- frutas, verduras, legumes, temperos, etc
-    imagem_url VARCHAR(255), -- URL da imagem do produto
+    categoria VARCHAR(50),
+    imagem_url VARCHAR(255),
     produtor_id INT NOT NULL,
-    ativo BOOLEAN DEFAULT TRUE, -- Se o produto está disponível
+    ativo BOOLEAN DEFAULT TRUE,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (produtor_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
@@ -36,7 +36,6 @@ CREATE TABLE carrinho (
     data_adicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE,
-    -- Garantir que um usuário não adicione o mesmo produto duas vezes
     UNIQUE KEY unique_usuario_produto (usuario_id, produto_id)
 );
 
@@ -56,9 +55,9 @@ INSERT INTO produtos (nome, descricao, preco, unidade, quantidade_disponivel, ca
 ('Couve', 'Couve fresca para sua saúde', 2.50, 'maço', 25, 'verduras', 1);
 
 INSERT INTO carrinho (usuario_id, produto_id, quantidade) VALUES
-(3, 1, 2), -- Pedro comprou 2kg de tomate
-(3, 3, 5), -- Pedro comprou 5kg de laranja
-(4, 2, 1); -- Ana comprou 1 alface
+(3, 1, 2),
+(3, 3, 5),
+(4, 2, 1);
 
 SELECT * FROM usuarios WHERE id = 5;
 SELECT * FROM produtos;
