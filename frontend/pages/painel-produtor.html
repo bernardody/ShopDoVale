@@ -4,30 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Produtor - Shop do Vale</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Cabeçalho -->
     <header>
-        <h1>Painel do Produtor</h1>
+        <h1>🌱 Painel do Produtor</h1>
         <nav>
             <span id="userInfo"></span>
             <a href="#" id="logout">Sair</a>
         </nav>
     </header>
 
+    <!-- Painel Principal -->
     <main>
         <h2>Bem-vindo ao seu painel!</h2>
         
         <div>
-            <h3>Resumo</h3>
+            <h3>📊 Resumo</h3>
             <p>Total de produtos cadastrados: <span id="totalProdutos">0</span></p>
             <p>Produtos ativos: <span id="produtosAtivos">0</span></p>
+            <p>Total de vendas: <span id="totalVendas">0</span></p>
+            <p>Valor total vendido: R$ <span id="valorVendido">0.00</span></p>
         </div>
 
         <div>
-            <h3>Ações Rápidas</h3>
+            <h3>🔧 Ações Rápidas</h3>
             <a href="gerenciar-produtos.html">
                 <button>Gerenciar Meus Produtos</button>
+            </a>
+            <a href="minhas-vendas.html">
+                <button>Ver Minhas Vendas</button>
             </a>
             <a href="produtos.html">
                 <button>Ver Marketplace</button>
@@ -35,12 +42,14 @@
         </div>
 
         <div>
-            <h3>Meus Produtos Recentes</h3>
+            <h3>📦 Meus Produtos Recentes</h3>
             <div id="produtos-recentes">
+                <!-- Produtos recentes serão carregados aqui -->
             </div>
         </div>
     </main>
 
+    <!-- Script do painel -->
     <script>
         // Verificar se usuário está logado e é produtor
         const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -61,6 +70,7 @@
         // Carregar resumo do produtor
         async function carregarResumo() {
             try {
+                // Carregar produtos
                 const response = await fetch(`http://localhost:3000/api/produtos/produtor/${user.id}`);
                 const produtos = await response.json();
                 
@@ -69,6 +79,16 @@
                 
                 document.getElementById('totalProdutos').textContent = totalProdutos;
                 document.getElementById('produtosAtivos').textContent = produtosAtivos;
+                
+                // Carregar vendas
+                const vendasResponse = await fetch(`http://localhost:3000/api/pedidos/produtor/${user.id}`);
+                const vendas = await vendasResponse.json();
+                
+                const totalVendas = vendas.length;
+                const valorVendido = vendas.reduce((total, venda) => total + parseFloat(venda.subtotal), 0);
+                
+                document.getElementById('totalVendas').textContent = totalVendas;
+                document.getElementById('valorVendido').textContent = valorVendido.toFixed(2);
                 
                 // Mostrar últimos 3 produtos
                 const container = document.getElementById('produtos-recentes');

@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho - Shop do Vale</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Cabeçalho -->
     <header>
-        <h1>Meu Carrinho</h1>
+        <h1>🛒 Meu Carrinho</h1>
         <nav>
             <a href="produtos.html">← Voltar aos produtos</a> | 
             <span id="userInfo"></span>
@@ -16,8 +17,10 @@
         </nav>
     </header>
 
+    <!-- Carrinho -->
     <main>
         <div id="carrinho-container">
+            <!-- Itens do carrinho serão carregados aqui -->
         </div>
         
         <div id="total-container">
@@ -26,6 +29,7 @@
         </div>
     </main>
 
+    <!-- Script para gerenciar carrinho -->
     <script>
         // Verificar se usuário está logado
         const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -129,10 +133,27 @@
             }
         }
 
-        // Finalizar compra
-        function finalizarCompra() {
-            alert('Compra finalizada! Entre em contato com os produtores para combinar a entrega.');
-            // Aqui poderia limpar o carrinho, enviar email, etc.
+        // Finalizar compra (simplificado)
+        async function finalizarCompra() {
+            if (!confirm('Confirmar pedido?')) return;
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/pedidos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario_id: user.id })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    alert('Pedido realizado com sucesso! Entre em contato com os produtores para combinar a entrega.');
+                    window.location.href = 'meus-pedidos.html';
+                } else {
+                    alert(data.error || 'Erro ao finalizar pedido');
+                }
+            } catch (error) {
+                alert('Erro ao finalizar compra');
+            }
         }
 
         // Carregar carrinho ao abrir a página

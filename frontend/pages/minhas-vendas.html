@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Vendas - Shop do Vale</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <h1>💰 Minhas Vendas</h1>
+        <nav>
+            <a href="painel-produtor.html">← Voltar ao painel</a> | 
+            <span id="userInfo"></span>
+            <a href="#" id="logout">Sair</a>
+        </nav>
+    </header>
+
+    <!-- Lista de Vendas -->
+    <main>
+        <h2>Histórico de Vendas</h2>
+        
+        <div id="resumo">
+            <h3>Resumo</h3>
+            <p>Total vendido: R$ <span id="totalVendido">0.00</span></p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unit.</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="vendas-tbody">
+                <!-- Vendas serão carregadas aqui -->
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Script para carregar vendas -->
+    <script>
+        // Verificar se usuário está logado e é produtor
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (!user.id || user.tipo !== 'produtor') {
+            alert('Acesso restrito a produtores');
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userInfo').textContent = `${user.nome} | `;
+        }
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        });
+
+        // Carregar vendas
+        async function carregarVendas() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/pedidos/produtor/${user.id}`);
+                const vendas = await response.json();
+                
+                const tbody = document.getElementById('vendas-tbody');
+                
+                if (vendas.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6">Nenhuma venda realizada ainda.</td></tr>';
+                    return;
+                }
+                
+                let totalVendido = 0;
+                
+                tbody.innerHTML = vendas.map(venda => {
+                    const data = new Date(venda.data_pedido).toLocaleDateString('pt-BR');
+                    totalVendido += parseFloat(venda.subtotal);
+                    
+                    return `
+                        <tr>
+                            <td>${data}</td>
+                            <td>${venda.nome_cliente}</td>
+                            <td>${venda.nome_produto}</td>
+                            <td>${venda.quantidade}</td>
+                            <td>R$ ${venda.preco_unitario}</td>
+                            <td>R$ ${venda.subtotal}</td>
+                        </tr>
+                    `;
+                }).join('');
+                
+                document.getElementById('totalVendido').textContent = totalVendido.toFixed(2);
+                
+            } catch (error) {
+                document.getElementById('vendas-tbody').innerHTML = 
+                    '<tr><td colspan="6">Erro ao carregar vendas. Tente novamente.</td></tr>';
+            }
+        }
+
+        // Carregar vendas ao abrir a página
+        carregarVendas();
+    </script>
+</body>
+</html>

@@ -4,26 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produtos - Shop do Vale</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Cabeçalho -->
     <header>
-        <h1>Shop do Vale</h1>
+        <h1>🥬 Shop do Vale</h1>
         <nav>
             <a href="index.html">Início</a> | 
             <a href="carrinho.html">🛒 Meu Carrinho</a> | 
+            <a href="meus-pedidos.html">📦 Meus Pedidos</a> | 
             <span id="userInfo"></span>
             <a href="#" id="logout">Sair</a>
         </nav>
     </header>
 
+    <!-- Lista de Produtos -->
     <main>
         <h2>Produtos Disponíveis</h2>
         
         <div id="produtos-container">
+            <!-- Produtos serão carregados aqui -->
         </div>
     </main>
 
+    <!-- Script para carregar produtos -->
     <script>
         // Verificar se usuário está logado
         const user = JSON.parse(localStorage.getItem('user') || '{}');
