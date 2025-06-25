@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Produtor - Shop do Vale</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Cabeçalho -->
     <header>
-        <h1>Painel do Produtor</h1>
+        <h1>🌱 Painel do Produtor</h1>
         <nav>
             <span id="userInfo"></span>
             <a href="#" id="logout">Sair</a>
@@ -21,9 +21,8 @@
         <h2>Bem-vindo ao seu painel!</h2>
         
         <div>
-            <h3>Resumo</h3>
+            <h3>📊 Resumo</h3>
             <p>Total de produtos cadastrados: <span id="totalProdutos">0</span></p>
-            <p>Produtos ativos: <span id="produtosAtivos">0</span></p>
             <p>Total de vendas: <span id="totalVendas">0</span></p>
             <p>Valor total vendido: R$ <span id="valorVendido">0.00</span></p>
         </div>
@@ -42,7 +41,7 @@
         </div>
 
         <div>
-            <h3>Meus Produtos Recentes</h3>
+            <h3>📦 Meus Produtos Recentes</h3>
             <div id="produtos-recentes">
                 <!-- Produtos recentes serão carregados aqui -->
             </div>
@@ -75,10 +74,8 @@
                 const produtos = await response.json();
                 
                 const totalProdutos = produtos.length;
-                const produtosAtivos = produtos.filter(p => p.ativo).length;
                 
                 document.getElementById('totalProdutos').textContent = totalProdutos;
-                document.getElementById('produtosAtivos').textContent = produtosAtivos;
                 
                 // Carregar vendas
                 const vendasResponse = await fetch(`http://localhost:3000/api/pedidos/produtor/${user.id}`);
@@ -104,7 +101,6 @@
                         <strong>${produto.nome}</strong> - 
                         R$ ${produto.preco}/${produto.unidade} - 
                         Estoque: ${produto.quantidade_disponivel}
-                        ${!produto.ativo ? ' (Inativo)' : ''}
                     </div>
                 `).join('');
                 

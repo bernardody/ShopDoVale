@@ -105,19 +105,37 @@ router.post('/produtos', (req, res) => {
   });
 });
 
+// GET /api/produtos/:id - Buscar um produto específico
+router.get('/produtos/:id', (req, res) => {
+  const produtoId = req.params.id;
+  
+  const query = 'SELECT * FROM produtos WHERE id = ?';
+  db.query(query, [produtoId], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Erro ao buscar produto' });
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).json({ error: 'Produto não encontrado' });
+      return;
+    }
+    res.json(results[0]);
+  });
+});
+
 // PUT /api/produtos/:id - Atualizar produto
 router.put('/produtos/:id', (req, res) => {
   const produtoId = req.params.id;
-  const { nome, descricao, preco, unidade, quantidade_disponivel, categoria, ativo } = req.body;
+  const { nome, descricao, preco, unidade, quantidade_disponivel, categoria } = req.body;
   
   const query = `
     UPDATE produtos 
     SET nome = ?, descricao = ?, preco = ?, unidade = ?, 
-        quantidade_disponivel = ?, categoria = ?, ativo = ?
+        quantidade_disponivel = ?, categoria = ?
     WHERE id = ?
   `;
   
-  db.query(query, [nome, descricao, preco, unidade, quantidade_disponivel, categoria, ativo, produtoId], (err, result) => {
+  db.query(query, [nome, descricao, preco, unidade, quantidade_disponivel, categoria, produtoId], (err, result) => {
     if (err) {
       res.status(500).json({ error: 'Erro ao atualizar produto' });
       return;
@@ -126,17 +144,26 @@ router.put('/produtos/:id', (req, res) => {
   });
 });
 
-// DELETE /api/produtos/:id - Deletar produto (apenas desativa)
+// DELETE /api/produtos/:id - Deletar produto completamente
 router.delete('/produtos/:id', (req, res) => {
   const produtoId = req.params.id;
   
-  const query = 'UPDATE produtos SET ativo = false WHERE id = ?';
-  db.query(query, [produtoId], (err, result) => {
+  // Primeiro remove dos carrinhos para evitar erro de foreign key
+  db.query('DELETE FROM carrinho WHERE produto_id = ?', [produtoId], (err) => {
     if (err) {
-      res.status(500).json({ error: 'Erro ao deletar produto' });
+      res.status(500).json({ error: 'Erro ao remover produto dos carrinhos' });
       return;
     }
-    res.json({ success: true, message: 'Produto removido com sucesso' });
+    
+    // Agora deleta o produto
+    const query = 'DELETE FROM produtos WHERE id = ?';
+    db.query(query, [produtoId], (err, result) => {
+      if (err) {
+        res.status(500).json({ error: 'Erro ao deletar produto' });
+        return;
+      }
+      res.json({ success: true, message: 'Produto removido permanentemente' });
+    });
   });
 });
 

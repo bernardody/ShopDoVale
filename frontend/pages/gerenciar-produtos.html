@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Produtos - Shop do Vale</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Cabeçalho -->
     <header>
-        <h1>Gerenciar Meus Produtos</h1>
+        <h1>📦 Gerenciar Meus Produtos</h1>
         <nav>
             <a href="painel-produtor.html">← Voltar ao painel</a> | 
             <span id="userInfo"></span>
@@ -16,10 +17,13 @@
         </nav>
     </header>
 
+    <!-- Gerenciamento de Produtos -->
     <main>
+        <!-- Formulário para adicionar/editar produto -->
         <section>
-            <h2>Adicionar Novo Produto</h2>
+            <h2 id="formTitulo">Adicionar Novo Produto</h2>
             <form id="formProduto">
+                <input type="hidden" id="produtoId" value="">
                 <input type="text" id="nome" placeholder="Nome do produto" required>
                 <input type="text" id="descricao" placeholder="Descrição">
                 <input type="number" id="preco" placeholder="Preço" step="0.01" required>
@@ -36,10 +40,12 @@
                     <option value="legumes">Legumes</option>
                     <option value="temperos">Temperos</option>
                 </select>
-                <button type="submit">Adicionar Produto</button>
+                <button type="submit" id="btnSubmit">Adicionar Produto</button>
+                <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()">Cancelar</button>
             </form>
         </section>
 
+        <!-- Lista de produtos -->
         <section>
             <h2>Meus Produtos</h2>
             <table>
@@ -50,16 +56,17 @@
                         <th>Unidade</th>
                         <th>Estoque</th>
                         <th>Categoria</th>
-                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="listaProdutos">
+                    <!-- Produtos serão carregados aqui -->
                 </tbody>
             </table>
         </section>
     </main>
 
+    <!-- Script para gerenciar produtos -->
     <script>
         // Verificar se usuário está logado e é produtor
         const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -77,35 +84,48 @@
             window.location.href = 'index.html';
         });
 
-        // Adicionar produto
+        // Adicionar/Editar produto
         document.getElementById('formProduto').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            const produtoId = document.getElementById('produtoId').value;
             const produto = {
                 nome: document.getElementById('nome').value,
                 descricao: document.getElementById('descricao').value,
                 preco: parseFloat(document.getElementById('preco').value),
                 unidade: document.getElementById('unidade').value,
                 quantidade_disponivel: parseInt(document.getElementById('quantidade').value),
-                categoria: document.getElementById('categoria').value,
-                produtor_id: user.id
+                categoria: document.getElementById('categoria').value
             };
             
             try {
-                const response = await fetch('http://localhost:3000/api/produtos', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(produto)
-                });
+                let response;
+                
+                if (produtoId) {
+                    // Editar produto existente
+                    response = await fetch(`http://localhost:3000/api/produtos/${produtoId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(produto)
+                    });
+                } else {
+                    // Adicionar novo produto
+                    produto.produtor_id = user.id;
+                    response = await fetch('http://localhost:3000/api/produtos', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(produto)
+                    });
+                }
                 
                 const data = await response.json();
                 if (data.success) {
-                    alert('Produto adicionado com sucesso!');
-                    document.getElementById('formProduto').reset();
+                    alert(produtoId ? 'Produto atualizado com sucesso!' : 'Produto adicionado com sucesso!');
+                    cancelarEdicao();
                     carregarProdutos();
                 }
             } catch (error) {
-                alert('Erro ao adicionar produto');
+                alert('Erro ao salvar produto');
             }
         });
 
@@ -118,7 +138,7 @@
                 const tbody = document.getElementById('listaProdutos');
                 
                 if (produtos.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7">Nenhum produto cadastrado</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6">Nenhum produto cadastrado</td></tr>';
                     return;
                 }
                 
@@ -129,12 +149,9 @@
                         <td>${produto.unidade}</td>
                         <td>${produto.quantidade_disponivel}</td>
                         <td>${produto.categoria || '-'}</td>
-                        <td>${produto.ativo ? 'Ativo' : 'Inativo'}</td>
                         <td>
-                            <button onclick="toggleStatus(${produto.id}, ${!produto.ativo})">
-                                ${produto.ativo ? 'Desativar' : 'Ativar'}
-                            </button>
-                            <button onclick="removerProduto(${produto.id})">Remover</button>
+                            <button onclick="editarProduto(${produto.id})">Editar</button>
+                            <button onclick="removerProduto(${produto.id}, '${produto.nome}')">Remover</button>
                         </td>
                     </tr>
                 `).join('');
@@ -144,35 +161,58 @@
             }
         }
 
-        // Ativar/Desativar produto
-        async function toggleStatus(produtoId, novoStatus) {
+        // Editar produto
+        async function editarProduto(produtoId) {
             try {
-                const response = await fetch(`http://localhost:3000/api/produtos/${produtoId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ativo: novoStatus })
-                });
+                const response = await fetch(`http://localhost:3000/api/produtos/${produtoId}`);
+                const produto = await response.json();
                 
-                if (response.ok) {
-                    carregarProdutos();
-                }
+                // Preencher o formulário
+                document.getElementById('produtoId').value = produto.id;
+                document.getElementById('nome').value = produto.nome;
+                document.getElementById('descricao').value = produto.descricao || '';
+                document.getElementById('preco').value = produto.preco;
+                document.getElementById('unidade').value = produto.unidade;
+                document.getElementById('quantidade').value = produto.quantidade_disponivel;
+                document.getElementById('categoria').value = produto.categoria;
+                
+                // Mudar visual do formulário
+                document.getElementById('formTitulo').textContent = 'Editar Produto';
+                document.getElementById('btnSubmit').textContent = 'Salvar Alterações';
+                document.getElementById('btnCancelar').style.display = 'inline-block';
+                
+                // Scroll para o topo
+                window.scrollTo(0, 0);
+                
             } catch (error) {
-                alert('Erro ao atualizar status');
+                alert('Erro ao carregar dados do produto');
             }
         }
 
+        // Cancelar edição
+        function cancelarEdicao() {
+            document.getElementById('formProduto').reset();
+            document.getElementById('produtoId').value = '';
+            document.getElementById('formTitulo').textContent = 'Adicionar Novo Produto';
+            document.getElementById('btnSubmit').textContent = 'Adicionar Produto';
+            document.getElementById('btnCancelar').style.display = 'none';
+        }
+
         // Remover produto
-        async function removerProduto(produtoId) {
-            if (!confirm('Deseja remover este produto?')) return;
+        async function removerProduto(produtoId, nomeProduto) {
+            if (!confirm(`Deseja remover permanentemente o produto "${nomeProduto}"?\n\nEsta ação não pode ser desfeita!`)) return;
             
             try {
                 const response = await fetch(`http://localhost:3000/api/produtos/${produtoId}`, {
                     method: 'DELETE'
                 });
                 
-                if (response.ok) {
-                    alert('Produto removido!');
+                const data = await response.json();
+                if (data.success) {
+                    alert('Produto removido com sucesso!');
                     carregarProdutos();
+                } else {
+                    alert(data.error || 'Erro ao remover produto');
                 }
             } catch (error) {
                 alert('Erro ao remover produto');
