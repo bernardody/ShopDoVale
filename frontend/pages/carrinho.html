@@ -66,6 +66,7 @@
                 container.innerHTML = itens.map(item => {
                     const subtotal = item.preco * item.quantidade;
                     total += subtotal;
+                    const semEstoque = item.quantidade_disponivel === 0;
                     
                     return `
                         <div>
@@ -75,9 +76,14 @@
                                 Quantidade: 
                                 <button onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade - 1})">-</button>
                                 ${item.quantidade}
-                                <button onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade + 1})">+</button>
+                                <button 
+                                    onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade + 1}, ${item.quantidade_disponivel})"
+                                    ${item.quantidade >= item.quantidade_disponivel ? 'disabled style="cursor: not-allowed;"' : ''}
+                                >+</button>
                             </p>
                             <p>Subtotal: R$ ${subtotal.toFixed(2)}</p>
+                            ${item.quantidade > item.quantidade_disponivel ? 
+                                '<p style="color: red;">⚠️ Estoque disponível: ' + item.quantidade_disponivel + '</p>' : ''}
                             <button onclick="removerDoCarrinho(${item.produto_id})">Remover</button>
                         </div>
                     `;
@@ -92,9 +98,14 @@
         }
 
         // Alterar quantidade
-        async function alterarQuantidade(produtoId, novaQuantidade) {
+        async function alterarQuantidade(produtoId, novaQuantidade, quantidadeDisponivel) {
             if (novaQuantidade < 1) {
                 removerDoCarrinho(produtoId);
+                return;
+            }
+            
+            if (quantidadeDisponivel && novaQuantidade > quantidadeDisponivel) {
+                alert(`Quantidade máxima disponível: ${quantidadeDisponivel}`);
                 return;
             }
             
@@ -109,8 +120,11 @@
                     })
                 });
                 
+                const data = await response.json();
                 if (response.ok) {
                     carregarCarrinho();
+                } else {
+                    alert(data.error || 'Erro ao atualizar quantidade');
                 }
             } catch (error) {
                 alert('Erro ao atualizar quantidade');

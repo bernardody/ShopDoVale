@@ -51,13 +51,13 @@ router.post('/registro', (req, res) => {
 
 // ===== PRODUTOS =====
 
-// GET /api/produtos - Listar todos os produtos ativos
+// GET /api/produtos - Listar todos os produtos ativos (com ou sem estoque)
 router.get('/produtos', (req, res) => {
   const query = `
     SELECT p.*, u.nome as nome_produtor 
     FROM produtos p 
     JOIN usuarios u ON p.produtor_id = u.id 
-    WHERE p.ativo = true AND p.quantidade_disponivel > 0
+    WHERE p.ativo = true
   `;
   
   db.query(query, (err, results) => {
@@ -174,7 +174,7 @@ router.get('/carrinho/:userId', (req, res) => {
   const userId = req.params.userId;
   
   const query = `
-    SELECT c.*, p.nome, p.preco, p.unidade, p.imagem_url 
+    SELECT c.*, p.nome, p.preco, p.unidade, p.imagem_url, p.quantidade_disponivel 
     FROM carrinho c 
     JOIN produtos p ON c.produto_id = p.id 
     WHERE c.usuario_id = ?
@@ -193,25 +193,38 @@ router.get('/carrinho/:userId', (req, res) => {
 router.post('/carrinho', (req, res) => {
   const { usuario_id, produto_id, quantidade } = req.body;
   
-  const query = 'INSERT INTO carrinho (usuario_id, produto_id, quantidade) VALUES (?, ?, ?)';
-  db.query(query, [usuario_id, produto_id, quantidade], (err, result) => {
-    if (err) {
-      if (err.code === 'ER_DUP_ENTRY') {
-        // Se já existe, atualiza a quantidade
-        const updateQuery = 'UPDATE carrinho SET quantidade = quantidade + ? WHERE usuario_id = ? AND produto_id = ?';
-        db.query(updateQuery, [quantidade, usuario_id, produto_id], (updateErr) => {
-          if (updateErr) {
-            res.status(500).json({ error: 'Erro ao atualizar carrinho' });
-            return;
-          }
-          res.json({ success: true, message: 'Quantidade atualizada no carrinho' });
-        });
-        return;
-      }
-      res.status(500).json({ error: 'Erro ao adicionar ao carrinho' });
+  // Verificar se produto tem estoque disponível
+  db.query('SELECT quantidade_disponivel FROM produtos WHERE id = ?', [produto_id], (err, results) => {
+    if (err || results.length === 0) {
+      res.status(500).json({ error: 'Erro ao verificar produto' });
       return;
     }
-    res.json({ success: true, message: 'Produto adicionado ao carrinho' });
+    
+    if (results[0].quantidade_disponivel < quantidade) {
+      res.status(400).json({ error: 'Quantidade solicitada maior que o estoque disponível' });
+      return;
+    }
+    
+    const query = 'INSERT INTO carrinho (usuario_id, produto_id, quantidade) VALUES (?, ?, ?)';
+    db.query(query, [usuario_id, produto_id, quantidade], (err, result) => {
+      if (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+          // Se já existe, atualiza a quantidade
+          const updateQuery = 'UPDATE carrinho SET quantidade = quantidade + ? WHERE usuario_id = ? AND produto_id = ?';
+          db.query(updateQuery, [quantidade, usuario_id, produto_id], (updateErr) => {
+            if (updateErr) {
+              res.status(500).json({ error: 'Erro ao atualizar carrinho' });
+              return;
+            }
+            res.json({ success: true, message: 'Quantidade atualizada no carrinho' });
+          });
+          return;
+        }
+        res.status(500).json({ error: 'Erro ao adicionar ao carrinho' });
+        return;
+      }
+      res.json({ success: true, message: 'Produto adicionado ao carrinho' });
+    });
   });
 });
 
@@ -219,13 +232,26 @@ router.post('/carrinho', (req, res) => {
 router.put('/carrinho', (req, res) => {
   const { usuario_id, produto_id, quantidade } = req.body;
   
-  const query = 'UPDATE carrinho SET quantidade = ? WHERE usuario_id = ? AND produto_id = ?';
-  db.query(query, [quantidade, usuario_id, produto_id], (err, result) => {
-    if (err) {
-      res.status(500).json({ error: 'Erro ao atualizar quantidade' });
+  // Verificar se produto tem estoque disponível
+  db.query('SELECT quantidade_disponivel FROM produtos WHERE id = ?', [produto_id], (err, results) => {
+    if (err || results.length === 0) {
+      res.status(500).json({ error: 'Erro ao verificar produto' });
       return;
     }
-    res.json({ success: true, message: 'Quantidade atualizada' });
+    
+    if (results[0].quantidade_disponivel < quantidade) {
+      res.status(400).json({ error: 'Quantidade solicitada maior que o estoque disponível' });
+      return;
+    }
+    
+    const query = 'UPDATE carrinho SET quantidade = ? WHERE usuario_id = ? AND produto_id = ?';
+    db.query(query, [quantidade, usuario_id, produto_id], (err, result) => {
+      if (err) {
+        res.status(500).json({ error: 'Erro ao atualizar quantidade' });
+        return;
+      }
+      res.json({ success: true, message: 'Quantidade atualizada' });
+    });
   });
 });
 
@@ -251,7 +277,7 @@ router.post('/pedidos', (req, res) => {
   
   // Buscar itens do carrinho com informações completas
   const carrinhoQuery = `
-    SELECT c.*, p.preco, p.produtor_id 
+    SELECT c.*, p.preco, p.produtor_id, p.quantidade_disponivel 
     FROM carrinho c 
     JOIN produtos p ON c.produto_id = p.id 
     WHERE c.usuario_id = ?
@@ -266,6 +292,16 @@ router.post('/pedidos', (req, res) => {
     if (itensCarrinho.length === 0) {
       res.status(400).json({ error: 'Carrinho vazio' });
       return;
+    }
+    
+    // Verificar se todos os produtos têm estoque suficiente
+    for (let item of itensCarrinho) {
+      if (item.quantidade > item.quantidade_disponivel) {
+        res.status(400).json({ 
+          error: `Produto "${item.nome}" não tem estoque suficiente. Disponível: ${item.quantidade_disponivel}` 
+        });
+        return;
+      }
     }
     
     // Calcular total
@@ -301,18 +337,40 @@ router.post('/pedidos', (req, res) => {
           return;
         }
         
-        // Limpar carrinho
-        db.query('DELETE FROM carrinho WHERE usuario_id = ?', [usuario_id], (err) => {
-          if (err) {
-            console.error('Erro ao limpar carrinho:', err);
-          }
-          
-          res.json({ 
-            success: true, 
-            message: 'Pedido realizado com sucesso!',
-            pedidoId: pedidoId 
+        // Atualizar o estoque dos produtos
+        const updatePromises = itensCarrinho.map(item => {
+          return new Promise((resolve, reject) => {
+            const updateQuery = `
+              UPDATE produtos 
+              SET quantidade_disponivel = quantidade_disponivel - ? 
+              WHERE id = ?
+            `;
+            db.query(updateQuery, [item.quantidade, item.produto_id], (err) => {
+              if (err) reject(err);
+              else resolve();
+            });
           });
         });
+        
+        Promise.all(updatePromises)
+          .then(() => {
+            // Limpar carrinho
+            db.query('DELETE FROM carrinho WHERE usuario_id = ?', [usuario_id], (err) => {
+              if (err) {
+                console.error('Erro ao limpar carrinho:', err);
+              }
+              
+              res.json({ 
+                success: true, 
+                message: 'Pedido realizado com sucesso!',
+                pedidoId: pedidoId 
+              });
+            });
+          })
+          .catch(err => {
+            console.error('Erro ao atualizar estoque:', err);
+            res.status(500).json({ error: 'Erro ao atualizar estoque dos produtos' });
+          });
       });
     });
   });

@@ -78,18 +78,27 @@
                     return;
                 }
                 
-                container.innerHTML = produtos.map(produto => `
-                    <div>
-                        <h3>${produto.nome}</h3>
-                        <p>${produto.descricao || 'Produto fresco e de qualidade'}</p>
-                        <p><strong>R$ ${produto.preco}/${produto.unidade}</strong></p>
-                        <p>Disponível: ${produto.quantidade_disponivel} ${produto.unidade}</p>
-                        <p>Produtor: ${produto.nome_produtor}</p>
-                        <button onclick="adicionarAoCarrinho(${produto.id}, '${produto.nome}')">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                `).join('');
+                container.innerHTML = produtos.map(produto => {
+                    const semEstoque = produto.quantidade_disponivel === 0;
+                    
+                    return `
+                        <div style="${semEstoque ? 'opacity: 0.7;' : ''}">
+                            <h3>${produto.nome}</h3>
+                            <p>${produto.descricao || 'Produto fresco e de qualidade'}</p>
+                            <p><strong>R$ ${produto.preco}/${produto.unidade}</strong></p>
+                            <p style="${semEstoque ? 'color: red; font-weight: bold;' : ''}">
+                                ${semEstoque ? 'Sem produtos disponíveis' : `Disponível: ${produto.quantidade_disponivel} ${produto.unidade}`}
+                            </p>
+                            <p>Produtor: ${produto.nome_produtor}</p>
+                            <button 
+                                onclick="adicionarAoCarrinho(${produto.id}, '${produto.nome}', ${produto.quantidade_disponivel})"
+                                ${semEstoque ? 'disabled style="background-color: #ccc; cursor: not-allowed;"' : ''}
+                            >
+                                ${semEstoque ? 'Indisponível' : 'Adicionar ao Carrinho'}
+                            </button>
+                        </div>
+                    `;
+                }).join('');
                 
             } catch (error) {
                 document.getElementById('produtos-container').innerHTML = 
@@ -98,10 +107,15 @@
         }
 
         // Adicionar ao carrinho
-        async function adicionarAoCarrinho(produtoId, nomeProduto) {
+        async function adicionarAoCarrinho(produtoId, nomeProduto, quantidadeDisponivel) {
             if (!user.id) {
                 alert('Faça login para adicionar produtos ao carrinho');
                 window.location.href = 'login.html';
+                return;
+            }
+            
+            if (quantidadeDisponivel === 0) {
+                alert('Este produto está sem estoque no momento');
                 return;
             }
             
@@ -119,6 +133,8 @@
                 const data = await response.json();
                 if (data.success) {
                     alert(`${nomeProduto} adicionado ao carrinho!`);
+                } else {
+                    alert(data.error || 'Erro ao adicionar ao carrinho');
                 }
             } catch (error) {
                 alert('Erro ao adicionar ao carrinho');
