@@ -73,7 +73,8 @@ router.get('/produtos', (req, res) => {
 router.get('/produtos/produtor/:id', (req, res) => {
   const produtorId = req.params.id;
   
-  const query = 'SELECT * FROM produtos WHERE produtor_id = ?';
+  // Busca TODOS os produtos do produtor (ativos e inativos)
+  const query = 'SELECT * FROM produtos WHERE produtor_id = ? ORDER BY ativo DESC, nome ASC';
   db.query(query, [produtorId], (err, results) => {
     if (err) {
       res.status(500).json({ error: 'Erro ao buscar produtos' });
@@ -148,22 +149,63 @@ router.put('/produtos/:id', (req, res) => {
 router.delete('/produtos/:id', (req, res) => {
   const produtoId = req.params.id;
   
-  // Primeiro remove dos carrinhos para evitar erro de foreign key
-  db.query('DELETE FROM carrinho WHERE produto_id = ?', [produtoId], (err) => {
+  // Primeiro, verificar se existem pedidos com este produto
+  db.query('SELECT COUNT(*) as count FROM itens_pedido WHERE produto_id = ?', [produtoId], (err, results) => {
     if (err) {
-      res.status(500).json({ error: 'Erro ao remover produto dos carrinhos' });
+      res.status(500).json({ error: 'Erro ao verificar pedidos' });
       return;
     }
     
-    // Agora deleta o produto
-    const query = 'DELETE FROM produtos WHERE id = ?';
-    db.query(query, [produtoId], (err, result) => {
-      if (err) {
-        res.status(500).json({ error: 'Erro ao deletar produto' });
-        return;
-      }
-      res.json({ success: true, message: 'Produto removido permanentemente' });
-    });
+    if (results[0].count > 0) {
+      // Se há pedidos, apenas desativar o produto ao invés de deletar
+      db.query('UPDATE produtos SET ativo = false WHERE id = ?', [produtoId], (err) => {
+        if (err) {
+          res.status(500).json({ error: 'Erro ao desativar produto' });
+          return;
+        }
+        
+        // Remover dos carrinhos ativos
+        db.query('DELETE FROM carrinho WHERE produto_id = ?', [produtoId], (err) => {
+          if (err) {
+            console.error('Erro ao limpar carrinho:', err);
+          }
+          res.json({ success: true, message: 'Produto removido do marketplace' });
+        });
+      });
+    } else {
+      // Se não há pedidos, pode deletar completamente
+      // Primeiro remove dos carrinhos
+      db.query('DELETE FROM carrinho WHERE produto_id = ?', [produtoId], (err) => {
+        if (err) {
+          res.status(500).json({ error: 'Erro ao remover produto dos carrinhos' });
+          return;
+        }
+        
+        // Agora deleta o produto
+        db.query('DELETE FROM produtos WHERE id = ?', [produtoId], (err, result) => {
+          if (err) {
+            console.error('Erro ao deletar produto:', err);
+            res.status(500).json({ error: 'Erro ao deletar produto. Detalhes: ' + err.message });
+            return;
+          }
+          res.json({ success: true, message: 'Produto removido permanentemente' });
+        });
+      });
+    }
+  });
+});
+
+// PUT /api/produtos/:id/reativar - Reativar produto
+router.put('/produtos/:id/reativar', (req, res) => {
+  const produtoId = req.params.id;
+  
+  const query = 'UPDATE produtos SET ativo = true WHERE id = ?';
+  db.query(query, [produtoId], (err, result) => {
+    if (err) {
+      res.status(500).json({ error: 'Erro ao reativar produto' });
+      return;
+    }
+    res.json({ success: true, message: 'Produto reativado com sucesso' });
   });
 });
 

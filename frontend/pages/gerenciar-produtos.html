@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Produtos - Shop do Vale</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Cabeçalho -->
@@ -123,8 +123,11 @@
                     alert(produtoId ? 'Produto atualizado com sucesso!' : 'Produto adicionado com sucesso!');
                     cancelarEdicao();
                     carregarProdutos();
+                } else {
+                    alert(data.error || 'Erro ao salvar produto');
                 }
             } catch (error) {
+                console.error('Erro:', error);
                 alert('Erro ao salvar produto');
             }
         });
@@ -143,21 +146,25 @@
                 }
                 
                 tbody.innerHTML = produtos.map(produto => `
-                    <tr>
-                        <td>${produto.nome}</td>
+                    <tr style="${!produto.ativo ? 'opacity: 0.6; background-color: #f8f8f8;' : ''}">
+                        <td>${produto.nome} ${!produto.ativo ? '<span style="color: red;">(Inativo)</span>' : ''}</td>
                         <td>R$ ${produto.preco}</td>
                         <td>${produto.unidade}</td>
                         <td>${produto.quantidade_disponivel}</td>
                         <td>${produto.categoria || '-'}</td>
                         <td>
                             <button onclick="editarProduto(${produto.id})">Editar</button>
-                            <button onclick="removerProduto(${produto.id}, '${produto.nome}')">Remover</button>
+                            ${produto.ativo ? 
+                                `<button onclick="removerProduto(${produto.id}, '${produto.nome.replace(/'/g, "\\'")}')">Remover</button>` :
+                                `<button onclick="reativarProduto(${produto.id}, '${produto.nome.replace(/'/g, "\\'")}')">Reativar</button>`
+                            }
                         </td>
                     </tr>
                 `).join('');
                 
             } catch (error) {
                 console.error('Erro ao carregar produtos:', error);
+                tbody.innerHTML = '<tr><td colspan="6">Erro ao carregar produtos</td></tr>';
             }
         }
 
@@ -200,7 +207,7 @@
 
         // Remover produto
         async function removerProduto(produtoId, nomeProduto) {
-            if (!confirm(`Deseja remover permanentemente o produto "${nomeProduto}"?\n\nEsta ação não pode ser desfeita!`)) return;
+            if (!confirm(`Deseja remover o produto "${nomeProduto}"?\n\nO produto será removido do marketplace.`)) return;
             
             try {
                 const response = await fetch(`http://localhost:3000/api/produtos/${produtoId}`, {
@@ -208,14 +215,40 @@
                 });
                 
                 const data = await response.json();
-                if (data.success) {
-                    alert('Produto removido com sucesso!');
+                console.log('Resposta da remoção:', data);
+                
+                if (response.ok && data.success) {
+                    alert(data.message || 'Produto removido com sucesso!');
                     carregarProdutos();
                 } else {
                     alert(data.error || 'Erro ao remover produto');
                 }
             } catch (error) {
-                alert('Erro ao remover produto');
+                console.error('Erro ao remover produto:', error);
+                alert('Erro de conexão ao remover produto');
+            }
+        }
+
+        // Reativar produto
+        async function reativarProduto(produtoId, nomeProduto) {
+            if (!confirm(`Deseja reativar o produto "${nomeProduto}"?`)) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/produtos/${produtoId}/reativar`, {
+                    method: 'PUT'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    alert('Produto reativado com sucesso!');
+                    carregarProdutos();
+                } else {
+                    alert(data.error || 'Erro ao reativar produto');
+                }
+            } catch (error) {
+                console.error('Erro ao reativar produto:', error);
+                alert('Erro ao reativar produto');
             }
         }
 
