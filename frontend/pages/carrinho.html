@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
     <header>
         <h1>Meu Carrinho</h1>
         <nav>
@@ -18,7 +17,6 @@
         </nav>
     </header>
 
-    <!-- Carrinho -->
     <main>
         <div id="carrinho-container">
             <!-- Itens do carrinho serão carregados aqui -->
@@ -30,7 +28,6 @@
         </div>
     </main>
 
-    <!-- Script para gerenciar carrinho -->
     <script>
         // Verificar se usuário está logado
         const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -148,7 +145,7 @@
             }
         }
 
-        // Finalizar compra (simplificado)
+        // Finalizar compra
         async function finalizarCompra() {
             if (!confirm('Confirmar pedido?')) return;
             

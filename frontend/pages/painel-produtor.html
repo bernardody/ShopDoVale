@@ -7,28 +7,26 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
     <header>
-        <h1>🌱 Painel do Produtor</h1>
+        <h1>Painel do Produtor</h1>
         <nav>
             <span id="userInfo"></span>
             <a href="#" id="logout">Sair</a>
         </nav>
     </header>
 
-    <!-- Painel Principal -->
     <main>
         <h2>Bem-vindo ao seu painel!</h2>
         
         <div>
-            <h3>📊 Resumo</h3>
+            <h3>Resumo</h3>
             <p>Total de produtos cadastrados: <span id="totalProdutos">0</span></p>
             <p>Total de vendas: <span id="totalVendas">0</span></p>
             <p>Valor total vendido: R$ <span id="valorVendido">0.00</span></p>
         </div>
 
         <div>
-            <h3>🔧 Ações Rápidas</h3>
+            <h3>Ações Rápidas</h3>
             <a href="gerenciar-produtos.html">
                 <button>Gerenciar Meus Produtos</button>
             </a>
@@ -41,14 +39,13 @@
         </div>
 
         <div>
-            <h3>📦 Meus Produtos Recentes</h3>
+            <h3>Meus Produtos Recentes</h3>
             <div id="produtos-recentes">
                 <!-- Produtos recentes serão carregados aqui -->
             </div>
         </div>
     </main>
 
-    <!-- Script do painel -->
     <script>
         // Verificar se usuário está logado e é produtor
         const user = JSON.parse(localStorage.getItem('user') || '{}');

@@ -7,17 +7,15 @@
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
     <header>
         <h1>Minhas Vendas</h1>
         <nav>
-            <a href="painel-produtor.html">← Voltar ao painel</a> | 
+            <a href="painel-produtor.html">Voltar ao painel</a> | 
             <span id="userInfo"></span>
             <a href="#" id="logout">Sair</a>
         </nav>
     </header>
 
-    <!-- Lista de Vendas -->
     <main>
         <h2>Histórico de Vendas</h2>
         
@@ -43,7 +41,6 @@
         </table>
     </main>
 
-    <!-- Script para carregar vendas -->
     <script>
         // Verificar se usuário está logado e é produtor
         const user = JSON.parse(localStorage.getItem('user') || '{}');
